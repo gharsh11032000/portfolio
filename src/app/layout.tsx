@@ -37,6 +37,8 @@ export const metadata: Metadata = {
     "React Developer",
     "Next.js Developer",
     "React Native Developer",
+    "Freelance Next.js Developer",
+    "Hire React Native Developer",
     "TypeScript",
     "AWS",
     "E-commerce",
@@ -83,6 +85,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={cn(GeistSans.variable, GeistMono.variable)}
     >
@@ -106,6 +109,22 @@ export default function RootLayout({
             </div>
             <div className="relative z-10 max-w-2xl mx-auto py-12 pb-24 sm:py-24 px-6">
               {children}
+              <footer className="mt-16 flex flex-col gap-1 border-t pt-6 text-xs text-muted-foreground sm:flex-row sm:justify-between">
+                <p>
+                  © {new Date().getFullYear()} {DATA.name} · {DATA.location}
+                </p>
+                <p>
+                  Built with Next.js, starting from{" "}
+                  <a
+                    href="https://github.com/dillionverma/portfolio"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-4 hover:text-foreground"
+                  >
+                    Magic UI&apos;s template
+                  </a>
+                </p>
+              </footer>
             </div>
             <Navbar />
           </TooltipProvider>

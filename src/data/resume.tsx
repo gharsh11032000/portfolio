@@ -1,5 +1,12 @@
 import { Icons } from "@/components/icons";
-import { HomeIcon, NotebookIcon, FileText } from "lucide-react";
+import {
+  HomeIcon,
+  NotebookIcon,
+  MonitorSmartphone,
+  Smartphone,
+  Gauge,
+  Cloud,
+} from "lucide-react";
 import type { IconType } from "react-icons";
 import {
   SiReact,
@@ -44,11 +51,18 @@ import {
   SiV0,
   SiAppstore,
   SiGoogleplay,
+  SiWhatsapp,
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa6";
 
 // NEXT_PUBLIC_SITE_URL overrides the domain, e.g. for local OG image testing.
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://harshgupta.xyz";
+
+const email = "gharsh11032000@gmail.com";
+const phone = "+919171960267";
+const whatsappUrl = `https://wa.me/${phone.slice(1)}?text=${encodeURIComponent(
+  "Hi Harsh, I found your portfolio and would like to talk about a project."
+)}`;
 
 export const SKILL_ICONS: Record<string, IconType> = {
   TypeScript: SiTypescript,
@@ -101,14 +115,15 @@ export const DATA = {
   initials: "HG",
   title: "Full-Stack Software Engineer",
   url: siteUrl,
-  location: "India",
-  locationLink: "https://www.google.com/maps/place/India",
+  location: "Udaipur, India",
+  locationLink: "https://www.google.com/maps/place/Udaipur",
+  availability: "Open to freelance & contract work",
   headline:
     "I lead the web team at Beyoung, a high-traffic e-commerce platform with 5M+ monthly impressions, shipping across Next.js, React Native, Node.js, and AWS.",
   description:
     "Full-stack software engineer leading web, mobile, and AWS at Beyoung (5M+ monthly impressions). React, Next.js, React Native, TypeScript. Top 5 on Uiverse.io.",
   summary:
-    "Full-stack software engineer with **4 years of experience**, rooted in frontend and now leading web, mobile, backend, and AWS work.\n\nAt **Beyoung**, I joined as a frontend engineer in an 18–20 person tech team and, through successive downsizing, took over the platform. I now lead the web team: I modernized the legacy web and React Native apps to TypeScript and Next.js 16, resolved 200+ security vulnerabilities, cut monthly AWS costs by up to 50%, and sped up delivery 4–5x with spec-driven, AI-assisted development.\n\nI also build for group companies **Woggles** and **Lastcode AI**, co-built **Plango** (10K+ downloads), and I'm a **Top 5 global contributor on Uiverse.io**.",
+    "I'm a full-stack engineer who started on the frontend and kept following problems downstream: into APIs, databases, mobile apps, and the AWS bill.\n\nAt **Beyoung** I joined as one of 18–20 engineers and, as the team shrank, ended up owning the platform. Today I lead the web team for a store with **5M+ monthly impressions**. I moved the legacy web and React Native apps to TypeScript and Next.js 16, cut AWS spend by up to 50%, and made delivery 4–5x faster with spec-driven, AI-assisted development.\n\nOutside the day job I co-built **Plango** (10K+ downloads), I'm a **Top 5 contributor on Uiverse.io**, and I take on freelance work for teams in India and abroad.",
   avatarUrl: "/harsh-gupta.jpg",
   resumeUrl: "/harsh_g_resume_latest.pdf",
   highlights: [
@@ -207,10 +222,12 @@ export const DATA = {
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/blog", icon: NotebookIcon, label: "Blog" },
-    { href: "/harsh_g_resume_latest.pdf", icon: FileText, label: "Resume" },
   ],
   contact: {
-    email: "gharsh11032000@gmail.com",
+    email,
+    phone,
+    phoneDisplay: "+91 91719 60267",
+    whatsappUrl,
     social: {
       GitHub: {
         name: "GitHub",
@@ -225,12 +242,102 @@ export const DATA = {
         navbar: true,
       },
       email: {
-        name: "Send Email",
-        url: "mailto:gharsh11032000@gmail.com",
+        name: "Email",
+        url: `mailto:${email}`,
         icon: Icons.email,
         navbar: true,
       },
+      WhatsApp: {
+        name: "WhatsApp",
+        url: whatsappUrl,
+        icon: SiWhatsapp,
+        navbar: true,
+      },
     },
+  },
+
+  services: [
+    {
+      title: "Web apps & storefronts",
+      icon: MonitorSmartphone,
+      description:
+        "Next.js and React apps from Figma to production, with a CMS your team can update without a developer.",
+      proof: { label: "Beyoung.in", href: "https://www.beyoung.in" },
+    },
+    {
+      title: "Mobile apps",
+      icon: Smartphone,
+      description:
+        "React Native apps for iOS and Android, through store review, with over-the-air updates for same-day fixes.",
+      proof: { label: "Plango", href: "https://www.plango.in" },
+    },
+    {
+      title: "Performance & upgrades",
+      icon: Gauge,
+      description:
+        "Speed up slow or outdated React and Next.js codebases: Core Web Vitals, bundle size, TypeScript migrations, and major version upgrades.",
+      proof: {
+        label: "Bundle case study",
+        href: "/blog/trimming-first-load-js-nextjs-storefront",
+      },
+    },
+    {
+      title: "Cloud cost & DevOps",
+      icon: Cloud,
+      description:
+        "CDN caching, AWS cost cuts, CI/CD pipelines, and error monitoring so you hear about bugs before your users do.",
+      proof: {
+        label: "Caching case study",
+        href: "/blog/how-we-cut-aws-spend-by-50-percent",
+      },
+    },
+  ],
+  workStyle: [
+    {
+      label: "Time zone",
+      value:
+        "IST (UTC+5:30). Overlaps with UK and EU working hours; early or late calls work for US teams.",
+    },
+    {
+      label: "Communication",
+      value:
+        "Async-first, with regular written updates and preview links you can click through, over Slack, email, or WhatsApp.",
+    },
+    {
+      label: "Engagements",
+      value: "Fixed-scope projects, monthly contracts, or a short audit to start.",
+    },
+  ],
+
+  journey: [
+    { city: "Sidhi", region: "Madhya Pradesh", label: "Hometown" },
+    {
+      city: "Bhopal",
+      region: "Madhya Pradesh",
+      label: "B.Tech at LNCT",
+      years: "2018–22",
+    },
+    {
+      city: "Ahmedabad",
+      region: "Gujarat",
+      label: "Frontend Developer, Green Apex",
+      years: "2024",
+    },
+    {
+      city: "Udaipur",
+      region: "Rajasthan",
+      label: "Web Lead, Beyoung",
+      years: "Now",
+      current: true,
+    },
+  ],
+
+  // Optional personal section; it renders only once something is filled in.
+  personal: {
+    // A Spotify playlist link, e.g. https://open.spotify.com/playlist/<id>
+    spotifyPlaylistUrl: "" as string,
+    // Photos placed in /public/photos, e.g. { src: "/photos/udaipur.jpg", alt: "Lake Pichola at dusk" }
+    photos: [] as { src: string; alt: string; caption?: string }[],
   },
 
   work: [
@@ -239,6 +346,8 @@ export const DATA = {
       href: "https://www.beyoung.in",
       location: "Udaipur, India",
       title: "Software Engineer (Web Lead)",
+      summary:
+        "Took over the platform as the team shrank; now lead web, mobile, backend, and AWS for a store with **5M+ monthly impressions**.",
       logoUrl: "/beyoung.png",
       start: "Nov 2024",
       end: "Present",
@@ -294,6 +403,8 @@ export const DATA = {
       href: "https://greenapex.com",
       location: "Ahmedabad, India",
       title: "Frontend Developer",
+      summary:
+        "Shipped **3–4 client projects end to end** in Next.js and Strapi, including a platform for a US-based emergency-services company.",
       logoUrl: "/ga-logo.png",
       start: "Feb 2024",
       end: "Nov 2024",
@@ -323,6 +434,8 @@ export const DATA = {
       href: "https://netmagnetic.com",
       location: "Remote",
       title: "Frontend Developer",
+      summary:
+        "Built the React UI for a WooCommerce point-of-sale plugin and cut its CSS from **~50K to ~10–20K lines**.",
       logoUrl: "/nm_logo.png",
       start: "Sep 2022",
       end: "Feb 2024",

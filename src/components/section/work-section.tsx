@@ -2,7 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Emphasis } from "@/components/emphasis";
 import { DATA } from "@/data/resume";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 export default function WorkSection() {
@@ -42,23 +42,40 @@ export default function WorkSection() {
               <span>{work.location}</span>
             </div>
           </header>
-          <div className="flex flex-col gap-4 md:pl-13">
-            {work.groups.map((group, idx) => (
-              <div key={group.title || idx} className="flex flex-col gap-2">
-                {group.title && (
-                  <h4 className="text-xs font-medium uppercase tracking-wider text-muted-foreground/80">
-                    {group.title}
-                  </h4>
-                )}
-                <ul className="list-disc pl-4 marker:text-muted-foreground/50 flex flex-col gap-1.5 text-sm text-muted-foreground leading-relaxed text-pretty">
-                  {group.bullets.map((bullet) => (
-                    <li key={bullet}>
-                      <Emphasis text={bullet} />
-                    </li>
-                  ))}
-                </ul>
+          <div className="flex flex-col gap-3 md:pl-13">
+            <p className="text-sm leading-relaxed text-muted-foreground text-pretty">
+              <Emphasis text={work.summary} />
+            </p>
+            <details className="group/details">
+              <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
+                <ChevronRight
+                  className="size-3.5 transition-transform group-open/details:rotate-90"
+                  aria-hidden
+                />
+                <span className="group-open/details:hidden">What I did</span>
+                <span className="hidden group-open/details:inline">
+                  Hide details
+                </span>
+              </summary>
+              <div className="flex flex-col gap-4 pt-3">
+                {work.groups.map((group, idx) => (
+                  <div key={group.title || idx} className="flex flex-col gap-2">
+                    {group.title && (
+                      <h4 className="text-xs font-medium uppercase tracking-wider text-muted-foreground/80">
+                        {group.title}
+                      </h4>
+                    )}
+                    <ul className="list-disc pl-4 marker:text-muted-foreground/50 flex flex-col gap-1.5 text-sm text-muted-foreground leading-relaxed text-pretty">
+                      {group.bullets.map((bullet) => (
+                        <li key={bullet}>
+                          <Emphasis text={bullet} />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
-            ))}
+            </details>
             <div className="flex flex-wrap gap-1">
               {work.technologies.map((tech) => (
                 <Badge
