@@ -42,6 +42,8 @@ import {
   SiClaude,
   SiCursor,
   SiV0,
+  SiAppstore,
+  SiGoogleplay,
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa6";
 
@@ -387,8 +389,9 @@ export const DATA = {
     },
     {
       title: "Plango",
-      // TODO: point href/links at the App Store or Play Store listing.
-      href: "",
+      href: "https://www.plango.in",
+      appStore: "https://apps.apple.com/app/plango-real-life-activities/id6762561781",
+      playStore: "https://play.google.com/store/apps/details?id=com.plango",
       dates: "2024",
       role: "Side project, co-built",
       description:
@@ -402,7 +405,23 @@ export const DATA = {
         "Cloudflare",
         "TypeScript",
       ],
-      links: [],
+      links: [
+        {
+          type: "Website",
+          href: "https://www.plango.in",
+          icon: <Icons.globe className="size-3" />,
+        },
+        {
+          type: "App Store",
+          href: "https://apps.apple.com/app/plango-real-life-activities/id6762561781",
+          icon: <SiAppstore className="size-3" />,
+        },
+        {
+          type: "Google Play",
+          href: "https://play.google.com/store/apps/details?id=com.plango",
+          icon: <SiGoogleplay className="size-3" />,
+        },
+      ],
       image: "",
     },
     {

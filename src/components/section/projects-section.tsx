@@ -20,6 +20,8 @@ export default function ProjectsSection() {
             description={project.description}
             dates={project.dates}
             role={project.role}
+            appStore={"appStore" in project ? project.appStore : undefined}
+            playStore={"playStore" in project ? project.playStore : undefined}
             tags={project.technologies}
             image={project.image}
             links={project.links}

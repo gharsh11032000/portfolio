@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Badge } from "@/components/ui/badge";
+import { DeviceLink } from "@/components/device-link";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -10,6 +11,9 @@ interface Props {
   description: string;
   dates: string;
   role?: string;
+  /** App Store / Google Play links; the title opens the one matching the device. */
+  appStore?: string;
+  playStore?: string;
   tags: readonly string[];
   image?: string;
   links?: readonly {
@@ -30,6 +34,8 @@ export function ProjectCard({
   description,
   dates,
   role,
+  appStore,
+  playStore,
   tags,
   image,
   links,
@@ -54,7 +60,16 @@ export function ProjectCard({
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-col gap-1">
             <h3 className="font-semibold leading-tight">
-              {href ? (
+              {href && (appStore || playStore) ? (
+                <DeviceLink
+                  href={href}
+                  iosHref={appStore}
+                  androidHref={playStore}
+                  className="hover:underline underline-offset-4"
+                >
+                  {title}
+                </DeviceLink>
+              ) : href ? (
                 <Link
                   href={href}
                   target="_blank"
