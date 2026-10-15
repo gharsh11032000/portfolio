@@ -103,7 +103,7 @@ export const DATA = {
       badges: ["Web Lead", "High Traffic (5M+)"],
       location: "Udaipur, India",
       title: "Software Engineer (Web Lead)",
-      logoUrl: "",
+      logoUrl: "/by-logo.png",
       start: "Nov 2024",
       end: "Present",
       description:
@@ -115,7 +115,7 @@ export const DATA = {
       href: "https://greenapex.com",
       location: "Ahmedabad, India",
       title: "Frontend Developer",
-      logoUrl: "",
+      logoUrl: "/ga-logo.png",
       start: "Feb 2024",
       end: "Nov 2024",
       description:
@@ -127,7 +127,7 @@ export const DATA = {
       badges: ["Frontend"],
       location: "Remote",
       title: "Frontend Developer",
-      logoUrl: "",
+      logoUrl: "/netmagnetic_logo.jpg",
       start: "Sep 2022",
       end: "Feb 2024",
       description:
@@ -139,7 +139,7 @@ export const DATA = {
       school: "LNCT Group of Colleges, Bhopal",
       href: "https://lnct.ac.in",
       degree: "Bachelor of Technology (B.Tech)",
-      logoUrl: "",
+      logoUrl: "/lnct.jpg",
       start: "2018",
       end: "2022",
     },
