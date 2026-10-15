@@ -10,7 +10,7 @@ import { Docker } from "@/components/ui/svgs/docker";
 export const DATA = {
   name: "Harsh Gupta",
   initials: "HG",
-  url: "https://github.com/gharsh11032000",
+  url: "https://github.com/gharsh11032000/portfolio",
   location: "India",
   locationLink: "https://www.google.com/maps/place/India",
   description:
@@ -29,6 +29,8 @@ export const DATA = {
     { name: "GSAP" },
     { name: "React Native" },
     { name: "Expo" },
+    { name: "NativeWind" },
+    { name: "Storybook" },
     { name: "Node.js", icon: Nodejs },
     { name: "Express.js" },
     { name: "Hono" },
@@ -47,9 +49,16 @@ export const DATA = {
     { name: "CI/CD & GitHub Actions" },
     { name: "TanStack Query" },
     { name: "Zustand" },
+    { name: "Redux Toolkit" },
     { name: "Zod" },
+    { name: "GraphQL" },
     { name: "Sentry" },
     { name: "Grafana" },
+    { name: "Claude Code" },
+    { name: "Cursor" },
+    { name: "Antigravity" },
+    { name: "MCP Servers" },
+    { name: "OpenSpec" },
   ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
@@ -91,14 +100,14 @@ export const DATA = {
     {
       company: "Beyoung.in",
       href: "https://www.beyoung.in",
-      badges: ["Web Lead", "High Traffic"],
+      badges: ["Web Lead", "High Traffic (5M+)"],
       location: "Udaipur, India",
       title: "Software Engineer (Web Lead)",
       logoUrl: "",
       start: "Nov 2024",
       end: "Present",
       description:
-        "Lead the 4-member web team across web, mobile, backend, and AWS for high-traffic e-commerce (5M+ monthly impressions). Upgraded storefront from Next.js 10 to 16 (Zod, TanStack Query), rebuilt OpenCart admin in Next.js achieving 90+ PageSpeed scores and cut bundle size by 15–25%. Consolidated storefront, API, cron jobs, and admin into a Turborepo monorepo with Drizzle ORM and GitHub Actions CI/CD. Cut monthly AWS spend by ~50% (from ~$3K to ~$1.5–2K) via Redis caching, architectural redesign, and Lambda WebP image pipeline. Modernized React Native mobile app with TypeScript, NativeWind, automated tests, and Cloudflare OTA updates.",
+        "• Lead the 4-member web team across web, mobile, backend, and AWS for high-traffic e-commerce (5M+ monthly impressions).\n• Upgraded storefront from Next.js 10 to 16 (Zod, TanStack Query), rebuilt OpenCart admin in Next.js achieving 90+ PageSpeed scores and cut bundle size by 15–25%.\n• Cut monthly AWS spend by ~50% (from ~$3K to ~$1.5–2K) via Redis caching, architectural redesign, and Lambda WebP image pipeline.\n• Consolidated storefront, API, cron jobs, and admin into a Turborepo monorepo with Drizzle ORM and GitHub Actions CI/CD.\n• Centralized content in Strapi CMS: dynamic homepage content, migrated WordPress blog to Next.js + Strapi, and replaced third-party SEO tool.\n• Modernized React Native mobile app with TypeScript, NativeWind, automated tests, and Cloudflare OTA updates (reduced app size by 10 MB).\n• Built observability with Sentry error monitoring and Grafana dashboards, bringing production errors down to near zero.\n• Introduced spec-driven development (OpenSpec) and AI-assisted workflows (Claude Code, Cursor, Antigravity, MCP servers, Agent Skills).",
     },
     {
       company: "Green Apex Infosolutions",
@@ -110,7 +119,7 @@ export const DATA = {
       start: "Feb 2024",
       end: "Nov 2024",
       description:
-        "Delivered 3–4 client projects end to end with Next.js and Strapi, including a luxury holidays travel platform, a government portal, and a platform for a US-based emergency-services company. Rebuilt company website and internal projects, migrating UI from MUI to Tailwind CSS and shadcn/ui with Storybook. Turned complex Figma designs into responsive, accessible interfaces with GSAP and Framer Motion animations.",
+        "• Delivered 3–4 client projects end to end with Next.js and Strapi, including a luxury holidays travel platform, a government portal, and a platform for a US-based emergency-services company.\n• Built reusable CMS-driven components and page sections in Strapi, letting client teams update content without developer involvement.\n• Rebuilt company website and internal projects, migrating UI from MUI to Tailwind CSS and shadcn/ui with Storybook.\n• Turned complex Figma designs into responsive, accessible interfaces with GSAP and Framer Motion animations.",
     },
     {
       company: "Netmagnetic",
@@ -122,7 +131,7 @@ export const DATA = {
       start: "Sep 2022",
       end: "Feb 2024",
       description:
-        "Built UI and functional features in React for POS Register (WooCommerce POS plugin) and HTML/CSS/JS frontends for POS Hub (.NET). Refactored ~50,000 lines of legacy CSS into ~10–20K lines of modular Sass (60–80% reduction), making Register UI easier to maintain and consistent. Redesigned and rebuilt company website and new venture website in React and Tailwind CSS with Framer Motion animations.",
+        "• Built UI and functional features in React for POS Register (WooCommerce POS plugin) and HTML/CSS/JS frontends for POS Hub (.NET).\n• Refactored ~50,000 lines of legacy CSS into ~10–20K lines of modular Sass (60–80% reduction), making Register UI easier to maintain and consistent.\n• Built HTML, CSS, and JavaScript templates for POS WordPress plugin, and designed product UI in Figma and marketing banners in Canva.\n• Redesigned and rebuilt company website and new venture website in React and Tailwind CSS with Framer Motion animations.",
     },
   ],
   education: [
@@ -161,7 +170,7 @@ export const DATA = {
           icon: <Icons.globe className="size-3" />,
         },
       ],
-      image: "",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80",
       video: "",
     },
     {
@@ -170,7 +179,7 @@ export const DATA = {
       dates: "2024",
       active: true,
       description:
-        "Co-built safety-first social activity mobile app for iOS and Android with KYC verification, escrow payments, in-app chat, and an admin panel. Reached 10,000+ downloads.",
+        "Co-built safety-first social activity mobile app for iOS and Android with KYC verification, escrow payments, in-app chat, and an admin panel. Reached 10,000+ organic downloads.",
       technologies: [
         "React Native",
         "Expo",
@@ -187,7 +196,7 @@ export const DATA = {
           icon: <Icons.github className="size-3" />,
         },
       ],
-      image: "",
+      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&auto=format&fit=crop&q=80",
       video: "",
     },
     {
@@ -211,7 +220,7 @@ export const DATA = {
           icon: <Icons.globe className="size-3" />,
         },
       ],
-      image: "",
+      image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&auto=format&fit=crop&q=80",
       video: "",
     },
     {
@@ -220,7 +229,7 @@ export const DATA = {
       dates: "2024 - Present",
       active: true,
       description:
-        "Feature development and optimizations for D2C eyewear brand under Beyoung group companies.",
+        "Ongoing feature development and cloud performance optimizations for D2C eyewear brand under Beyoung group companies.",
       technologies: [
         "Next.js",
         "React",
@@ -235,7 +244,7 @@ export const DATA = {
           icon: <Icons.globe className="size-3" />,
         },
       ],
-      image: "",
+      image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&auto=format&fit=crop&q=80",
       video: "",
     },
   ],
