@@ -1,0 +1,77 @@
+---
+title: "Upgrading an E-Commerce Storefront to Next.js 16 and Reaching 90+ Core Web Vitals"
+publishedAt: "2025-02-10"
+updatedAt: "2025-02-10"
+author: "Harsh Gupta"
+summary: "How we upgraded a high-traffic production e-commerce storefront from legacy Next.js to Next.js 16, cutting client bundle size by 20% and hitting 90+ PageSpeed scores."
+image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=192&fit=crop"
+---
+
+Upgrading a mission-critical e-commerce application serving over **5M+ monthly impressions** isn't as simple as updating `package.json` and running `pnpm install`.
+
+Our storefront was previously running on an older Next.js setup with mixed JavaScript and TypeScript, legacy OpenCart admin hooks, and heavy bundle dependencies. We undertook an overhaul to migrate the platform to **Next.js 16**, full **TypeScript strict typing**, **TanStack Query**, and **Zod** validation.
+
+Here is what we learned and how we achieved **90+ PageSpeed scores** while cutting total JavaScript bundle sizes by **15–25%**.
+
+---
+
+## The Upgrade Goals
+
+Before writing any code, we defined our target metrics:
+1. **Core Web Vitals**: Achieve green scores across LCP (< 2.5s), INP (< 200ms), and CLS (< 0.1).
+2. **Type Safety**: Eliminate `any` types and runtime data mismatch errors from backend APIs.
+3. **Admin Modernization**: Rebuild the legacy OpenCart administrative panel completely inside Next.js.
+4. **Zero Downtime**: Ensure checkout flows and catalog indexing remain uninterrupted.
+
+---
+
+## 1. End-to-End Schema Validation with Zod
+
+In large e-commerce apps, unexpected null or missing fields in API payloads are the number one cause of production frontend crashes. We paired Zod with TypeScript to enforce runtime contracts at the network boundary:
+
+```typescript
+import { z } from "zod";
+
+export const ProductSchema = z.object({
+  id: z.string(),
+  title: z.string().min(1),
+  price: z.number().positive(),
+  discountedPrice: z.number().optional(),
+  stock: z.number().int().nonnegative(),
+  images: z.array(z.string().url()),
+  attributes: z.record(z.string()),
+});
+
+export type Product = z.infer<typeof ProductSchema>;
+```
+
+Whenever product data is fetched, Zod guarantees our React components only receive valid, predictable data structures.
+
+---
+
+## 2. Server Components & Tree Shaking
+
+Upgrading to Next.js 16 allowed us to take full advantage of React Server Components (RSC):
+* **Static Content Stays on the Server**: Product descriptions, specifications, navigation menus, and footers render server-side without shipping any client-side JavaScript.
+* **Isolating Interactive Islands**: Only dynamic elements (e.g. Size Selector, Add to Cart button, Mini-Cart slider) are marked with `"use client"`.
+
+This architectural split was the single largest driver behind our **15–25% bundle size reduction**.
+
+---
+
+## 3. Asynchronous Data Fetching with TanStack Query
+
+For client-side interactions (user reviews, wishlists, dynamic pricing tiers), we introduced **TanStack Query (React Query)**:
+* Automatic background refetching and window focus synchronization.
+* Instant optimistic UI updates when users add items to their cart.
+* Built-in request deduplication, preventing multiple components from spamming identical API endpoints.
+
+---
+
+## Results & Production Impact
+
+* 🚀 **PageSpeed Performance**: Improved from 60–70s to **90+** across product listing and detail pages.
+* 📦 **Bundle Size**: Reduced initial JavaScript chunk transfer by ~20%.
+* 🛡️ **Zero Security Vulnerabilities**: Resolved over 200+ legacy npm vulnerabilities during the upgrade.
+* 🛠️ **Developer Experience**: Feature delivery velocity increased 4–5x across our web engineering team.
+

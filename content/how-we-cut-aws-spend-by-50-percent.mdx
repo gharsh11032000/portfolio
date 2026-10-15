@@ -1,0 +1,79 @@
+---
+title: "How We Cut Monthly AWS Spend by 50% on a High-Traffic Storefront"
+publishedAt: "2025-01-15"
+updatedAt: "2025-01-15"
+author: "Harsh Gupta"
+summary: "How we reduced our monthly AWS cloud bill from ~$3K to ~$1.5K using Redis, Next.js caching, and an on-demand AWS Lambda image pipeline for 5M+ monthly impressions."
+image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=192&fit=crop"
+---
+
+When managing a high-traffic e-commerce storefront with over **5 million monthly impressions**, small architectural inefficiencies compound rapidly into huge cloud infrastructure bills.
+
+At Beyoung, our monthly AWS bill was hovering around **~$3,000/month**. By identifying key bottleneck areas in our data fetching, static asset delivery, and caching tiers, we successfully brought monthly infrastructure costs down to **~$1,500–$2,000/month (a ~50% reduction)** while actually improving user experience and PageSpeed scores.
+
+Here is a breakdown of the technical decisions that yielded the biggest return on investment.
+
+---
+
+## 1. Moving from Uncoordinated In-Memory Caching to Redis
+
+Initially, multiple Node.js instances ran isolated in-memory caches. This caused two major problems:
+1. **Cache Duplication & Drift**: Different instances stored identical data, exhausting memory prematurely.
+2. **High Database Load on Scale-Up**: When auto-scaling spun up new EC2 instances, cold cache states triggered thousands of simultaneous database queries (the "thundering herd" effect).
+
+By introducing an externalized **Redis** caching cluster paired with Next.js cache revalidation, we unified data caching across all instances:
+
+```typescript
+// Shared Redis cache retrieval with fallback
+export async function getCachedProduct(productId: string) {
+  const cacheKey = `product:${productId}`;
+  const cached = await redis.get(cacheKey);
+  
+  if (cached) {
+    return JSON.parse(cached);
+  }
+
+  const freshData = await db.query.products.findFirst({
+    where: eq(products.id, productId),
+  });
+
+  // Cache for 15 minutes with stale-while-revalidate semantics
+  await redis.set(cacheKey, JSON.stringify(freshData), "EX", 900);
+  return freshData;
+}
+```
+
+This single change dramatically reduced our database CPU utilization by over 40%, allowing us to downscale database instance tiers.
+
+---
+
+## 2. Serverless WebP Image Resizing Pipeline on AWS Lambda
+
+E-commerce requires thousands of high-resolution product catalog images. Serving full-resolution JPEG/PNG files directly from S3 or having heavy Node servers perform on-the-fly image transformations created huge bandwidth bills and CPU spikes.
+
+We architected a serverless on-demand image optimization pipeline:
+1. **Amazon CloudFront** serves as the public CDN edge.
+2. When CloudFront encounters a cache miss for a specific dimensions request (e.g. `/images/fit-in/400x400/product-1.webp`), it forwards the request to an **AWS Lambda function**.
+3. The Lambda function pulls the original master image from **S3**, resizes it with **Sharp**, converts it into modern **WebP**, and stores the result back in the caching bucket.
+4. Subsequent requests are served directly from CloudFront edge locations with zero compute overhead.
+
+### Key Results:
+* **~60% reduction in image payload size**: Faster LCP (Largest Contentful Paint) for mobile shoppers.
+* **Near-zero image compute costs**: S3 + Lambda serverless execution cost a fraction of dedicated EC2 processing.
+
+---
+
+## 3. Optimizing Next.js Caching & Turborepo Monorepo
+
+We consolidated our storefront, admin portal, API routes, and cron routines into a **Turborepo monorepo**. This allowed us to:
+* Share data validation schemas (**Zod**) and database models (**Drizzle ORM**) across all apps.
+* Implement targeted Next.js route caching (`revalidateTag`) so only modified catalog items are invalidated rather than rebuilding entire sections.
+
+---
+
+## Key Takeaways
+
+1. **Profile first, optimize second**: Use observability tools (we set up Sentry and Grafana dashboards) to identify whether DB queries, bandwidth, or server memory are the primary drivers of your AWS costs.
+2. **Move heavy media processing to Serverless**: Don't let your primary web server resize images or process media—offload it to Lambda + S3.
+3. **Decouple cache from compute**: Storing shared session and product cache in Redis preserves stability during auto-scaling events.
+
