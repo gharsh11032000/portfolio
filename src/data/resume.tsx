@@ -143,7 +143,7 @@ export const DATA = {
       badges: ["Web Lead", "High Traffic (5M+)"],
       location: "Udaipur, India",
       title: "Software Engineer (Web Lead)",
-      logoUrl: "/by-logo.png",
+      logoUrl: "/by.webp",
       start: "Nov 2024",
       end: "Present",
       description:
@@ -167,7 +167,7 @@ export const DATA = {
       badges: ["Frontend"],
       location: "Remote",
       title: "Frontend Developer",
-      logoUrl: "/netmagnetic_logo.jpg",
+      logoUrl: "/nm_logo.png",
       start: "Sep 2022",
       end: "Feb 2024",
       description:
