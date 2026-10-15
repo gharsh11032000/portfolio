@@ -143,7 +143,7 @@ export const DATA = {
       badges: ["Web Lead", "High Traffic (5M+)"],
       location: "Udaipur, India",
       title: "Software Engineer (Web Lead)",
-      logoUrl: "/by.webp",
+      logoUrl: "/beyoung.png",
       start: "Nov 2024",
       end: "Present",
       description:
