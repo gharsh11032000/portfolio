@@ -1,47 +1,32 @@
-<div align="center">
-<img alt="Portfolio" src="https://github.com/dillionverma/portfolio/assets/16860528/57ffca81-3f0a-4425-b31d-094f61725455" width="90%">
-</div>
+# Harsh Gupta – Portfolio
 
-# Portfolio [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdillionverma%2Fportfolio)
+Personal portfolio and engineering blog for Harsh Gupta, Full-Stack Software Engineer.
 
-Built with next.js, [shadcn/ui](https://ui.shadcn.com/), and [magic ui](https://magicui.design/), deployed on Vercel.
+Built with Next.js 16, Tailwind CSS v4, shadcn/ui, and [Magic UI](https://magicui.design/), based on [dillionverma/portfolio](https://github.com/dillionverma/portfolio).
 
-# Features
+## Editing content
 
-- Setup only takes a few minutes by editing the [single config file](./src/data/resume.tsx)
-- Built using Next.js 14, React, Typescript, Shadcn/UI, TailwindCSS, Framer Motion, Magic UI
-- Includes a blog
-- Responsive for different devices
-- Optimized for Next.js and Vercel
+- **Profile, experience, projects, skills:** [`src/data/resume.tsx`](./src/data/resume.tsx)
+- **Blog posts:** MDX files in [`content/`](./content)
+- **Resume PDF:** [`public/harsh_g_resume_latest.pdf`](./public/harsh_g_resume_latest.pdf)
 
-# Getting Started Locally
+Keep `resume.tsx` in sync with the PDF when either changes.
 
-1. Clone this repository to your local machine:
+## Site URL
 
-   ```bash
-   git clone https://github.com/dillionverma/portfolio
-   ```
+Canonical URLs, the sitemap, Open Graph images, and JSON-LD all use the site URL, which defaults to `https://harshgupta.xyz`. To override it (for example when testing locally), set:
 
-2. Move to the cloned directory
+```bash
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
 
-   ```bash
-   cd portfolio
-   ```
+## Running locally
 
-3. Install dependencies:
+```bash
+pnpm install
+pnpm dev
+```
 
-   ```bash
-   pnpm install
-   ```
+## License
 
-4. Start the local Server:
-
-   ```bash
-   pnpm dev
-   ```
-
-5. Open the [Config file](./src/data/resume.tsx) and make changes
-
-# License
-
-Licensed under the [MIT license](https://github.com/dillionverma/portfolio/blob/main/LICENSE.md).
+MIT, see [LICENSE](./LICENSE).

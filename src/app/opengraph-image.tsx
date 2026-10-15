@@ -1,10 +1,11 @@
  
 import { ImageResponse } from "next/og";
 import { DATA } from "@/data/resume";
+import { getAvatarDataUrl } from "@/lib/og";
 
 export const runtime = "edge";
 
-export const alt = DATA.name;
+export const alt = `${DATA.name} – ${DATA.title}`;
 export const size = {
     width: 1200,
     height: 630,
@@ -108,9 +109,7 @@ const styles = {
 export default async function Image() {
     try {
         const fontData = await getFontData();
-        const imageUrl = DATA.avatarUrl
-            ? new URL(DATA.avatarUrl, DATA.url).toString()
-            : undefined;
+        const imageUrl = await getAvatarDataUrl();
 
         return new ImageResponse(
             (
@@ -119,13 +118,13 @@ export default async function Image() {
                         <div style={styles.wrapper}>
                             {imageUrl && (
                                 <div style={styles.imageSection}>
-                                    <img src={imageUrl} alt={DATA.name} style={styles.image} />
+                                    <img src={imageUrl} alt={DATA.name} width={140} height={140} style={styles.image} />
                                 </div>
                             )}
                             <div style={styles.mainContainer}>
-                                <div style={styles.title}>{DATA.name}</div>
-                                {DATA.description && (
-                                    <div style={styles.description}>{DATA.description}</div>
+                                <div style={styles.title}>{`${DATA.name} – ${DATA.title}`}</div>
+                                {DATA.headline && (
+                                    <div style={styles.description}>{DATA.headline}</div>
                                 )}
                             </div>
                         </div>

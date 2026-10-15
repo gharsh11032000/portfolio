@@ -7,6 +7,30 @@ const nextConfig = {
   turbopack: {
     root: path.resolve("."),
   },
+  async redirects() {
+    // Posts that were live on harshgupta.xyz before being removed or replaced.
+    const removedPosts = [
+      "api-design-principles",
+      "building-design-systems",
+      "git-workflow-guide",
+      "nextjs-performance-tips",
+      "remote-work-productivity",
+      "testing-react-apps",
+      "typescript-best-practices",
+    ];
+    return [
+      {
+        source: "/blog/upgrading-production-storefront-to-nextjs-16",
+        destination: "/blog/trimming-first-load-js-nextjs-storefront",
+        permanent: true,
+      },
+      ...removedPosts.map((slug) => ({
+        source: `/blog/${slug}`,
+        destination: "/blog",
+        permanent: true,
+      })),
+    ];
+  },
   async headers() {
     return [
       {

@@ -1,21 +1,27 @@
 import BlurFade from "@/components/magicui/blur-fade";
-import { allPosts } from "content-collections";
+import { getPostSlug, getSortedPosts } from "@/lib/posts";
+import { DATA } from "@/data/resume";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { paginate, normalizePage } from "@/lib/pagination";
 import { ChevronRight } from "lucide-react";
+import { formatDate } from "@/lib/utils";
+
+const description = `Engineering write-ups by ${DATA.name} on Next.js, React Native, performance, and AWS from running a high-traffic e-commerce platform.`;
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Thoughts on software development, life, and more.",
+  description,
+  alternates: { canonical: "/blog" },
   openGraph: {
-    title: "Blog",
-    description: "Thoughts on software development, life, and more.",
+    title: `Blog | ${DATA.name}`,
+    description,
+    url: "/blog",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog",
-    description: "Thoughts on software development, life, and more.",
+    title: `Blog | ${DATA.name}`,
+    description,
   },
 };
 
@@ -29,13 +35,7 @@ export default async function BlogPage({
 }) {
   const { page: pageParam } = await searchParams;
 
-  const posts = allPosts;
-  const sortedPosts = [...posts].sort((a, b) => {
-    if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
-      return -1;
-    }
-    return 1;
-  });
+  const sortedPosts = getSortedPosts();
 
   const totalPages = Math.ceil(sortedPosts.length / PAGE_SIZE);
   const currentPage = normalizePage(pageParam, totalPages);
@@ -49,7 +49,7 @@ export default async function BlogPage({
       <BlurFade delay={BLUR_FADE_DELAY}>
         <h1 className="text-2xl font-semibold tracking-tight mb-2">Blog <span className="ml-1 bg-card border border-border rounded-md px-2 py-1 text-muted-foreground text-sm">{sortedPosts.length} posts</span></h1>
         <p className="text-sm text-muted-foreground mb-8">
-          My thoughts on software development, life, and more.
+          Notes from building and scaling production web and mobile apps.
         </p>
       </BlurFade>
 
@@ -58,7 +58,7 @@ export default async function BlogPage({
           <BlurFade delay={BLUR_FADE_DELAY * 2}>
             <div className="flex flex-col gap-5">
               {paginatedPosts.map((post, id) => {
-                const slug = post._meta.path.replace(/\.mdx$/, "");
+                const slug = getPostSlug(post);
                 const indexNumber = (pagination.page - 1) * PAGE_SIZE + id + 1;
                 return (
                   <BlurFade delay={BLUR_FADE_DELAY * 3 + id * 0.05} key={slug}>
@@ -80,7 +80,7 @@ export default async function BlogPage({
                           </span>
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          {post.publishedAt}
+                          {formatDate(post.publishedAt)}
                         </p>
                       </div>
                     </Link>

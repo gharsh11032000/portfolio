@@ -1,0 +1,101 @@
+---
+title: "Two Imports That Were Shipping to Every Page of Our Next.js Storefront"
+publishedAt: "2026-10-16"
+author: "Harsh Gupta"
+summary: "A bundle analysis showed the ~290 KB Sentry SDK and two copies of Zod (~131 KB) in the First Load JS of every page. Here's how dynamic imports and a 30-line env check got them out."
+---
+
+On an e-commerce site, every kilobyte of JavaScript on the home, category, and product pages costs you, and most of our shoppers are on mid-range Android phones. So when I ran a bundle analysis on our Next.js 16 storefront, I wasn't looking for big dependencies. I was looking for anything in **First Load JS**, the JavaScript every page downloads and parses before it becomes interactive.
+
+Two things stood out, and neither was code anyone would call heavy on purpose.
+
+## How to look
+
+Next.js ships an analyzer plugin. With `@next/bundle-analyzer` wired into `next.config`:
+
+```bash
+ANALYZE=true next build
+```
+
+The treemap shows you what's big. To confirm what's actually on the critical path, check the build manifests:
+
+- Chunks listed in **`build-manifest.json`** load up front on every page.
+- Chunks referenced only from **`react-loadable-manifest.json`** are lazy, loaded through a dynamic `import()`.
+
+That distinction is how I verified both fixes below. Something that disappears from the first manifest has left First Load JS.
+
+## Culprit 1: the Sentry SDK (~290 KB)
+
+Error monitoring is non-negotiable for us. But the Sentry browser SDK is about **290 KB**, and it was reaching the initial bundle through two separate paths:
+
+1. `instrumentation-client.ts` imported it eagerly and called `Sentry.init()` at bootstrap.
+2. A small `captureRouteError` helper imported it, and every route's `error.tsx` imported that helper. Error boundaries are part of First Load JS, so Sentry rode along on every page.
+
+Fixing only one path would have changed nothing. Both had to become dynamic imports.
+
+**Bootstrap:** load Sentry after the page has loaded and the browser is idle, and only in production when a DSN is set:
+
+```ts
+// instrumentation-client.ts
+function loadSentry() {
+  import("@sentry/nextjs").then((Sentry) => {
+    Sentry.init({ dsn: process.env.NEXT_PUBLIC_SENTRY_DSN /* ... */ });
+  });
+}
+
+const isProd = process.env.NODE_ENV === "production";
+
+if (isProd && process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  window.addEventListener("load", () => {
+    if ("requestIdleCallback" in window) requestIdleCallback(loadSentry);
+    else setTimeout(loadSentry, 1);
+  });
+}
+```
+
+**Error boundaries:** import Sentry only when an error actually reaches one:
+
+```ts
+export async function captureRouteError(error: Error) {
+  const Sentry = await import("@sentry/nextjs");
+  Sentry.captureException(error);
+}
+```
+
+**The trade-off:** we lose tracing for router transitions that happen before the browser goes idle. We don't lose any error capture. That was an easy call for us, but you should make it on purpose, not by accident.
+
+After the change, the Sentry code lives in async chunks that appear only in `react-loadable-manifest.json`, out of First Load JS.
+
+## Culprit 2: Zod, twice (~131 KB)
+
+This one was sneakier. We had a `clientEnv.ts` module that validated public environment variables with a Zod schema. Reasonable on its own, but about **90 modules** across the client graph imported it.
+
+A module imported that widely gets hoisted into the **shared chunk** every page loads. So Zod was being downloaded and parsed on the home page, category pages, and product pages, none of which validate anything with it. On top of that, a second full copy of Zod ended up in the Pages Router `main` chunk. Together that was about **131 KB**.
+
+The fix was to stop using a validation library for what is really a list of required keys:
+
+```ts
+// clientEnv.ts
+const values = {
+  API_URL: process.env.NEXT_PUBLIC_API_URL,
+  SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+  // ...
+};
+
+for (const [key, value] of Object.entries(values)) {
+  if (!value) throw new Error(`Missing env var: NEXT_PUBLIC_${key}`);
+}
+
+export const clientEnv = values as Record<keyof typeof values, string>;
+```
+
+**One gotcha matters here.** Next.js inlines `NEXT_PUBLIC_*` values at build time only for **literal** member access like `process.env.NEXT_PUBLIC_API_URL`. If you loop over keys and read `process.env[key]`, nothing gets inlined, and every value is `undefined` in the browser. So the values are read literally, and only the check loops.
+
+Forms still use Zod, but now it ships only in the route chunks that need it. After the change, Zod is gone from the shared chunk, which now holds only Next.js and its helpers, and it's down to a single **67.6 KB** lazy chunk.
+
+## What I took away
+
+1. **Shared modules are where weight hides.** Nobody adds 131 KB on purpose. It arrives through a small, popular file.
+2. **Check every import path.** Sentry had two routes into the bundle. Closing one would have shown no improvement and made the fix look like it didn't work.
+3. **Verify with the manifests, not the treemap.** "It's in a separate chunk" and "it's off the critical path" are different claims.
+4. **Write down the trade-off.** Deferring Sentry costs early router traces. That's fine, as long as it's a decision and not a surprise.

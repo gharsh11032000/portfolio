@@ -1,79 +1,99 @@
 ---
-title: "How We Cut Monthly AWS Spend by 50% on a High-Traffic Storefront"
-publishedAt: "2025-01-15"
-updatedAt: "2025-01-15"
+title: "How We Halved Our AWS Bill by Caching a Next.js Storefront at the Edge"
+publishedAt: "2026-10-15"
+updatedAt: "2026-10-16"
 author: "Harsh Gupta"
-summary: "How we reduced our monthly AWS cloud bill from ~$3K to ~$1.5K using Redis, Next.js caching, and an on-demand AWS Lambda image pipeline for 5M+ monthly impressions."
-image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=192&fit=crop"
+summary: "Tiered CDN cache policies, a CloudFront cache key that ignores cookies and tracking params, path purges on publish, and a Lambda image pipeline took our monthly AWS spend from ~$3K to ~$1.5–2K."
 ---
 
-When managing a high-traffic e-commerce storefront with over **5 million monthly impressions**, small architectural inefficiencies compound rapidly into huge cloud infrastructure bills.
+[Beyoung](https://www.beyoung.in) is a fashion e-commerce site with **5M+ monthly impressions**. The stack is a Next.js 16 storefront, an Express API, and MySQL on AWS. When I started looking at our bill, it was around **$3,000 a month**, and most of it was paying for the same work over and over.
 
-At Beyoung, our monthly AWS bill was hovering around **~$3,000/month**. By identifying key bottleneck areas in our data fetching, static asset delivery, and caching tiers, we successfully brought monthly infrastructure costs down to **~$1,500–$2,000/month (a ~50% reduction)** while actually improving user experience and PageSpeed scores.
+Most of our traffic is guests browsing categories and product pages. A logged-out visitor on `/mens-shirts` gets the same HTML as every other logged-out visitor, yet every one of those requests was being rendered at the origin.
 
-Here is a breakdown of the technical decisions that yielded the biggest return on investment.
+Today the bill sits around **$1,500–2,000 a month**. No single trick got us there. It came from deciding, page by page, what is safe to cache and for how long.
 
----
+## 1. Decide what is cacheable, per page type
 
-## 1. Moving from Uncoordinated In-Memory Caching to Redis
+Not every page can be cached the same way. We ended up with a handful of tiers:
 
-Initially, multiple Node.js instances ran isolated in-memory caches. This caused two major problems:
-1. **Cache Duplication & Drift**: Different instances stored identical data, exhausting memory prematurely.
-2. **High Database Load on Scale-Up**: When auto-scaling spun up new EC2 instances, cold cache states triggered thousands of simultaneous database queries (the "thundering herd" effect).
+| Page type | CDN cache (`s-maxage`) | Why |
+| --- | --- | --- |
+| Home, category, product | 6 hours | Purged on publish |
+| FAQ, policies, about | 24 hours | Rarely changes |
+| Filtered or sorted listings | 5 minutes | Too many combinations |
+| Search | not cached | Effectively unique per query |
+| Account, checkout, API | not cached | Personal or operational |
 
-By introducing an externalized **Redis** caching cluster paired with Next.js cache revalidation, we unified data caching across all instances:
+Every cacheable page sends the same shape of header:
 
-```typescript
-// Shared Redis cache retrieval with fallback
-export async function getCachedProduct(productId: string) {
-  const cacheKey = `product:${productId}`;
-  const cached = await redis.get(cacheKey);
-  
-  if (cached) {
-    return JSON.parse(cached);
-  }
+```http
+Cache-Control: public, max-age=0, s-maxage=21600, must-revalidate
+```
 
-  const freshData = await db.query.products.findFirst({
-    where: eq(products.id, productId),
-  });
+`max-age=0` means browsers always revalidate, so a shopper never sees a stale price from their own cache. `s-maxage` lets the CDN hold the page. Because we purge on publish (more on that below), a long CDN lifetime doesn't mean stale content.
 
-  // Cache for 15 minutes with stale-while-revalidate semantics
-  await redis.set(cacheKey, JSON.stringify(freshData), "EX", 900);
-  return freshData;
+The policy lives in one small function the proxy calls for guest requests:
+
+```ts
+export function getGuestCacheControl(
+  pathname: string,
+  params: URLSearchParams
+) {
+  if (pathname.startsWith("/catalogsearch")) return NO_STORE;
+  if (params.has("filter") || params.has("order")) return html(5 * 60);
+  if (pathname === "/") return html(6 * 60 * 60);
+  if (STATIC_INFO_PATHS.has(pathname)) return html(24 * 60 * 60);
+  return html(6 * 60 * 60);
 }
 ```
 
-This single change dramatically reduced our database CPU utilization by over 40%, allowing us to downscale database instance tiers.
+Having it in one tested function, instead of scattered across route configs, made it easy to review and easy to change.
 
----
+## 2. The cache key is where the real work is
 
-## 2. Serverless WebP Image Resizing Pipeline on AWS Lambda
+Setting cache headers is easy. Getting a good **hit rate** without ever serving the wrong page is the hard part, and it all comes down to the cache key.
 
-E-commerce requires thousands of high-resolution product catalog images. Serving full-resolution JPEG/PNG files directly from S3 or having heavy Node servers perform on-the-fly image transformations created huge bandwidth bills and CPU spikes.
+Our CloudFront HTML policy includes:
 
-We architected a serverless on-demand image optimization pipeline:
-1. **Amazon CloudFront** serves as the public CDN edge.
-2. When CloudFront encounters a cache miss for a specific dimensions request (e.g. `/images/fit-in/400x400/product-1.webp`), it forwards the request to an **AWS Lambda function**.
-3. The Lambda function pulls the original master image from **S3**, resizes it with **Sharp**, converts it into modern **WebP**, and stores the result back in the caching bucket.
-4. Subsequent requests are served directly from CloudFront edge locations with zero compute overhead.
+- **The path**
+- **Only the query params that change the page:** `filter` and `order`
+- **Next.js RSC headers** (`RSC`, `Next-Router-*`), so a React Server Components payload is never served to a browser expecting HTML, or the other way around
+- **CloudFront's device headers** (`CloudFront-Is-Mobile-Viewer` and friends), because our mobile and desktop HTML differ
 
-### Key Results:
-* **~60% reduction in image payload size**: Faster LCP (Largest Contentful Paint) for mobile shoppers.
-* **Near-zero image compute costs**: S3 + Lambda serverless execution cost a fraction of dedicated EC2 processing.
+And it deliberately excludes:
 
----
+- **Cookies.** The session token must never be part of the key, and logged-in requests skip the cache entirely.
+- **Tracking params** like `utm_*`, `gclid`, and `fbclid`. Every ad click carries a unique one, so leaving them in the key would turn every campaign visit into a cache miss.
 
-## 3. Optimizing Next.js Caching & Turborepo Monorepo
+The origin sends a matching `Vary` header, so the CDN and the browser agree on what makes two responses different. We learned that the hard way: before we added the device headers to `Vary`, a browser could reuse device-specific HTML after a viewport change.
 
-We consolidated our storefront, admin portal, API routes, and cron routines into a **Turborepo monorepo**. This allowed us to:
-* Share data validation schemas (**Zod**) and database models (**Drizzle ORM**) across all apps.
-* Implement targeted Next.js route caching (`revalidateTag`) so only modified catalog items are invalidated rather than rebuilding entire sections.
+Our target was for category pages to approach the home page's hit rate of **90%+**.
 
----
+## 3. Purge instead of waiting
 
-## Key Takeaways
+Long cache lifetimes only work if you can take content down the moment it changes. When a merchandiser publishes in the CMS, a token-protected webhook purges the affected **paths**, not the whole distribution. For the cases automation misses, there's an internal purge page where the team can clear grouped paths and watch the edge invalidation finish.
 
-1. **Profile first, optimize second**: Use observability tools (we set up Sentry and Grafana dashboards) to identify whether DB queries, bandwidth, or server memory are the primary drivers of your AWS costs.
-2. **Move heavy media processing to Serverless**: Don't let your primary web server resize images or process media—offload it to Lambda + S3.
-3. **Decouple cache from compute**: Storing shared session and product cache in Redis preserves stability during auto-scaling events.
+Path purges are fast, cheap, and leave the rest of the cache warm. A full invalidation after every publish would have undone most of the savings.
 
+## 4. Keep API caching at the origin
+
+The storefront's API requests are signed per caller, so the JSON can't be cached at the edge. Instead, the Express API caches responses in **Redis** with a small middleware:
+
+- Every key has a known prefix, so a purge endpoint can invalidate one key or a whole group.
+- Authenticated responses are only cached when the key includes the user ID. Otherwise they're skipped, so one customer's data can never leak to another.
+- Endpoints whose content doesn't depend on who is asking can opt into one shared entry.
+
+One honest detour: I also built a Redis-backed cache handler for Next.js itself. We deleted it about a week later, roughly 800 lines. Once guest HTML was served from the edge, it was one more cache layer to keep consistent for very little gain. Redis stayed where it clearly pays off: API responses.
+
+## 5. Stop resizing images on the web servers
+
+Product images are the heaviest thing we serve. They now go through an **AWS Lambda** behind CloudFront. On a cache miss, it pulls the original from S3, resizes it with Sharp, picks WebP or AVIF based on the browser's `Accept` header, and returns it with long-lived cache headers. After the first request, CloudFront serves that size from the edge with no compute at all.
+
+Static assets and `next/image` responses share one policy: a year-long, `immutable` cache.
+
+## What I'd tell someone starting this
+
+1. **Start from traffic, not technology.** Our win came from noticing that most requests were anonymous and identical.
+2. **Spend your time on the cache key.** Every extra thing in the key lowers your hit rate. Every missing thing risks serving someone the wrong page.
+3. **Pair long TTLs with targeted purges.** That combination gives you freshness and a high hit rate at the same time.
+4. **Delete layers that stop earning their keep.** A cache you don't need is just another place for stale data to hide.

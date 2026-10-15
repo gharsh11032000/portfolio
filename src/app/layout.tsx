@@ -3,24 +3,48 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
+
+const defaultTitle = `${DATA.name} – ${DATA.title}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(DATA.url),
   title: {
-    default: DATA.name,
+    default: defaultTitle,
     template: `%s | ${DATA.name}`,
   },
   description: DATA.description,
+  applicationName: DATA.name,
+  authors: [{ name: DATA.name, url: DATA.url }],
+  creator: DATA.name,
+  keywords: [
+    DATA.name,
+    "Full-Stack Software Engineer",
+    "Frontend Engineer",
+    "React Developer",
+    "Next.js Developer",
+    "React Native Developer",
+    "TypeScript",
+    "AWS",
+    "E-commerce",
+    "India",
+  ],
   openGraph: {
-    title: `${DATA.name}`,
+    title: defaultTitle,
     description: DATA.description,
-    url: DATA.url,
-    siteName: `${DATA.name}`,
+    url: "/",
+    siteName: DATA.name,
     locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitle,
+    description: DATA.description,
   },
   robots: {
     index: true,
@@ -33,14 +57,13 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  twitter: {
-    title: `${DATA.name}`,
-    card: "summary_large_image",
-  },
-  verification: {
-    google: "",
-    yandex: "",
-  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
 };
 
 export default function RootLayout({
@@ -49,15 +72,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn(GeistSans.variable, GeistMono.variable)}
+    >
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased relative"
