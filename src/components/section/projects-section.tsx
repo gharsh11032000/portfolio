@@ -24,6 +24,8 @@ export default function ProjectsSection() {
             playStore={"playStore" in project ? project.playStore : undefined}
             tags={project.technologies}
             image={project.image}
+            imageAlt={"imageAlt" in project ? project.imageAlt : undefined}
+            imageBg={"imageBg" in project ? project.imageBg : undefined}
             links={project.links}
           />
         </BlurFade>

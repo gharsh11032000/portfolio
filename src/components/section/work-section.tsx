@@ -1,99 +1,110 @@
 /* eslint-disable @next/next/no-img-element */
-import { Badge } from "@/components/ui/badge";
-import { Emphasis } from "@/components/emphasis";
 import { DATA } from "@/data/resume";
-import { ArrowUpRight, ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+
+function Logo({ src, alt }: { src: string; alt: string }) {
+  return (
+    <img
+      src={src}
+      alt={alt}
+      width={40}
+      height={40}
+      loading="lazy"
+      decoding="async"
+      className="size-10 p-1 border rounded-full shadow ring-2 ring-border overflow-hidden object-contain flex-none bg-background"
+    />
+  );
+}
+
+function SiteLink({ href }: { href: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-fit text-xs font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+    >
+      {href.replace(/^https?:\/\/(www\.)?/, "")}{" "}
+      <span aria-hidden>↗</span>
+    </a>
+  );
+}
+
+function RowText({
+  title,
+  subtitle,
+  dates,
+  expandable,
+  href,
+}: {
+  title: string;
+  subtitle: string;
+  dates: string;
+  expandable?: boolean;
+  href?: string;
+}) {
+  return (
+    <div className="flex flex-1 min-w-0 items-center justify-between gap-x-3">
+      <div className="flex min-w-0 flex-col gap-1">
+        <h3 className="inline-flex items-center gap-1 font-semibold leading-none">
+          {title}
+          {expandable && (
+            <ChevronRight
+              className="size-3.5 text-muted-foreground opacity-0 -translate-x-1 transition-all group-hover/row:opacity-100 group-hover/row:translate-x-0 group-open/row:rotate-90 group-open/row:opacity-100 group-open/row:translate-x-0"
+              aria-hidden
+            />
+          )}
+        </h3>
+        <p className="text-sm text-muted-foreground">{subtitle}</p>
+        {href && <SiteLink href={href} />}
+      </div>
+      <span className="flex-none text-xs tabular-nums text-muted-foreground text-right">
+        {dates}
+      </span>
+    </div>
+  );
+}
 
 export default function WorkSection() {
   return (
-    <div className="flex flex-col gap-10">
+    <ul className="flex flex-col gap-6">
       {DATA.work.map((work) => (
-        <article key={work.company} className="flex flex-col gap-4">
-          <header className="flex items-start gap-x-3 justify-between">
-            <div className="flex items-center gap-x-3 flex-1 min-w-0">
-              <img
-                src={work.logoUrl}
-                alt={`${work.company} logo`}
-                width={40}
-                height={40}
-                loading="lazy"
-                decoding="async"
-                className="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border overflow-hidden object-contain flex-none bg-background"
+        <li key={work.company}>
+          <details className="group/row">
+            <summary className="flex cursor-pointer list-none items-center gap-x-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
+              <Logo src={work.logoUrl} alt={`${work.company} logo`} />
+              <RowText
+                title={work.company}
+                subtitle={work.title}
+                dates={`${work.start} – ${work.end}`}
+                expandable
               />
-              <div className="flex-1 min-w-0 flex flex-col gap-1">
-                <h3 className="font-semibold leading-none">
-                  <Link
-                    href={work.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-1 hover:underline underline-offset-4"
-                  >
-                    {work.company}
-                    <ArrowUpRight
-                      className="size-3.5 text-muted-foreground opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
-                      aria-hidden
-                    />
-                  </Link>
-                </h3>
-                <p className="text-sm text-muted-foreground">{work.title}</p>
-              </div>
+            </summary>
+            <div className="flex flex-col gap-2 pt-3 pl-13 text-sm leading-relaxed text-muted-foreground text-pretty">
+              <p>{work.description}</p>
+              <SiteLink href={work.href} />
             </div>
-            <div className="flex flex-col items-end gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none">
-              <span>
-                {work.start} – {work.end}
-              </span>
-              <span>{work.location}</span>
-            </div>
-          </header>
-          <div className="flex flex-col gap-3 md:pl-13">
-            <p className="text-sm leading-relaxed text-muted-foreground text-pretty">
-              <Emphasis text={work.summary} />
-            </p>
-            <details className="group/details">
-              <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
-                <ChevronRight
-                  className="size-3.5 transition-transform group-open/details:rotate-90"
-                  aria-hidden
-                />
-                <span className="group-open/details:hidden">What I did</span>
-                <span className="hidden group-open/details:inline">
-                  Hide details
-                </span>
-              </summary>
-              <div className="flex flex-col gap-4 pt-3">
-                {work.groups.map((group, idx) => (
-                  <div key={group.title || idx} className="flex flex-col gap-2">
-                    {group.title && (
-                      <h4 className="text-xs font-medium uppercase tracking-wider text-muted-foreground/80">
-                        {group.title}
-                      </h4>
-                    )}
-                    <ul className="list-disc pl-4 marker:text-muted-foreground/50 flex flex-col gap-1.5 text-sm text-muted-foreground leading-relaxed text-pretty">
-                      {group.bullets.map((bullet) => (
-                        <li key={bullet}>
-                          <Emphasis text={bullet} />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </details>
-            <div className="flex flex-wrap gap-1">
-              {work.technologies.map((tech) => (
-                <Badge
-                  key={tech}
-                  variant="outline"
-                  className="text-[11px] font-medium h-6 px-2"
-                >
-                  {tech}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        </article>
+          </details>
+        </li>
       ))}
-    </div>
+    </ul>
+  );
+}
+
+export function EducationSection() {
+  return (
+    <ul className="flex flex-col gap-6">
+      {DATA.education.map((edu) => (
+        <li key={edu.school} className="flex items-center gap-x-3">
+          <Logo src={edu.logoUrl} alt={`${edu.school} logo`} />
+          <RowText
+            title={edu.school}
+            subtitle={edu.degree}
+            dates={`${edu.start} – ${edu.end}`}
+            href={edu.href}
+          />
+        </li>
+      ))}
+    </ul>
   );
 }

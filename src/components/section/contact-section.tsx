@@ -1,14 +1,14 @@
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { Icons } from "@/components/icons";
 import { DATA } from "@/data/resume";
-import { Mail, Phone } from "lucide-react";
+import { Mail } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 
 const methods = [
   {
     label: "Email",
     value: DATA.contact.email,
-    href: `mailto:${DATA.contact.email}?subject=${encodeURIComponent("Project inquiry")}`,
+    href: `mailto:${DATA.contact.email}?subject=${encodeURIComponent("Hello from your website")}`,
     icon: Mail,
     wide: true,
   },
@@ -45,12 +45,11 @@ export default function ContactSection() {
       </div>
       <div className="relative flex flex-col items-center gap-4 text-center">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-          Let&apos;s build something
+          Get in touch
         </h2>
         <p className="mx-auto max-w-lg text-muted-foreground text-balance">
-          Have a product to build, an app that feels slow, or a cloud bill
-          that keeps growing? Tell me what you&apos;re working on. I&apos;m{" "}
-          {DATA.availability.toLowerCase()} with teams anywhere.
+          For a job, a freelance project, or a question about something I
+          wrote, email is the best way to reach me.
         </p>
         <ul className="grid w-full gap-2 pt-2 text-left sm:grid-cols-2">
           {methods.map((method) => {
@@ -84,24 +83,14 @@ export default function ContactSection() {
             );
           })}
         </ul>
-        <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
-          <a
-            href={`tel:${DATA.contact.phone}`}
-            className="inline-flex items-center gap-1.5 underline-offset-4 hover:text-foreground hover:underline"
-          >
-            <Phone className="size-3.5" aria-hidden />
-            Or call {DATA.contact.phoneDisplay}
-          </a>
-          <span aria-hidden>·</span>
-          <a
-            href={DATA.resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline-offset-4 hover:text-foreground hover:underline"
-          >
-            Download my resume (PDF)
-          </a>
-        </p>
+        <a
+          href={DATA.resumeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+        >
+          Download my resume (PDF)
+        </a>
       </div>
     </div>
   );

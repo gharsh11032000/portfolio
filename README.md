@@ -8,7 +8,7 @@ Built with Next.js 16, Tailwind CSS v4, shadcn/ui, and [Magic UI](https://magicu
 
 - **Profile, experience, projects, skills:** [`src/data/resume.tsx`](./src/data/resume.tsx)
 - **Blog posts:** MDX files in [`content/`](./content)
-- **Resume PDF:** [`public/harsh_g_resume_latest.pdf`](./public/harsh_g_resume_latest.pdf)
+- **Resume PDF:** [`public/harsh-gupta-resume.pdf`](./public/harsh-gupta-resume.pdf)
 
 Keep `resume.tsx` in sync with the PDF when either changes.
 

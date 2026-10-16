@@ -20,6 +20,11 @@ const nextConfig = {
     ];
     return [
       {
+        source: "/harsh_g_resume_latest.pdf",
+        destination: "/harsh-gupta-resume.pdf",
+        permanent: true,
+      },
+      {
         source: "/blog/upgrading-production-storefront-to-nextjs-16",
         destination: "/blog/trimming-first-load-js-nextjs-storefront",
         permanent: true,

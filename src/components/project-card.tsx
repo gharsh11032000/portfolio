@@ -16,6 +16,9 @@ interface Props {
   playStore?: string;
   tags: readonly string[];
   image?: string;
+  imageAlt?: string;
+  /** CSS background behind the framed screenshot, e.g. a brand gradient. */
+  imageBg?: string;
   links?: readonly {
     icon: React.ReactNode;
     type: string;
@@ -38,6 +41,8 @@ export function ProjectCard({
   playStore,
   tags,
   image,
+  imageAlt,
+  imageBg,
   links,
   className,
 }: Props) {
@@ -49,12 +54,33 @@ export function ProjectCard({
       )}
     >
       {image && (
-        <img
-          src={image}
-          alt={`${title} screenshot`}
-          className="w-full h-44 object-cover border-b"
-          loading="lazy"
-        />
+        <div
+          className="group/shot relative h-44 overflow-hidden border-b bg-muted px-6 pt-6"
+          style={imageBg ? { background: imageBg } : undefined}
+        >
+          {/* A browser window that peeks out from the bottom edge. */}
+          <div className="overflow-hidden rounded-t-lg border border-b-0 border-black/10 bg-background shadow-xl transition-transform duration-300 group-hover/shot:-translate-y-1 motion-reduce:transition-none">
+            <div className="flex h-6 items-center gap-1 border-b bg-muted/60 px-2.5" aria-hidden>
+              <span className="size-1.5 rounded-full bg-red-400" />
+              <span className="size-1.5 rounded-full bg-amber-400" />
+              <span className="size-1.5 rounded-full bg-green-400" />
+              {href && (
+                <span className="mx-auto truncate rounded bg-background px-2 text-[10px] leading-4 text-muted-foreground">
+                  {href.replace(/^https?:\/\/(www\.)?/, "")}
+                </span>
+              )}
+            </div>
+            <img
+              src={image}
+              alt={imageAlt ?? `${title} screenshot`}
+              width={960}
+              height={500}
+              className="block w-full"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
       )}
       <div className="p-5 flex flex-col gap-3 flex-1">
         <div className="flex items-start justify-between gap-2">
