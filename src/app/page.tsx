@@ -1,6 +1,6 @@
 import BlurFade from "@/components/magicui/blur-fade";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DATA, SKILL_ICONS } from "@/data/resume";
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Markdown from "react-markdown";
@@ -151,10 +151,16 @@ export default function Page() {
             </BlurFade>
           </div>
           <BlurFade delay={BLUR_FADE_DELAY} className="order-1 md:order-2">
-            <Avatar className="size-24 md:size-32 border rounded-full shadow-lg ring-4 ring-muted">
-              <AvatarImage alt={`Photo of ${DATA.name}`} src={DATA.avatarUrl} />
-              <AvatarFallback className="font-bold text-xl">{DATA.initials}</AvatarFallback>
-            </Avatar>
+            <div className="relative size-24 md:size-32 overflow-hidden border rounded-full shadow-lg ring-4 ring-muted bg-muted">
+              <Image
+                src={DATA.avatarUrl}
+                alt={`Photo of ${DATA.name}`}
+                fill
+                sizes="(min-width: 768px) 128px, 96px"
+                priority
+                className="object-cover"
+              />
+            </div>
           </BlurFade>
         </div>
       </section>
