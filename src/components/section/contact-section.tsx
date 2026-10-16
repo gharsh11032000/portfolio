@@ -10,18 +10,13 @@ const methods = [
     value: DATA.contact.email,
     href: `mailto:${DATA.contact.email}?subject=${encodeURIComponent("Project inquiry")}`,
     icon: Mail,
+    wide: true,
   },
   {
     label: "WhatsApp",
     value: DATA.contact.phoneDisplay,
     href: DATA.contact.whatsappUrl,
     icon: SiWhatsapp,
-  },
-  {
-    label: "Phone",
-    value: DATA.contact.phoneDisplay,
-    href: `tel:${DATA.contact.phone}`,
-    icon: Phone,
   },
   {
     label: "LinkedIn",
@@ -61,7 +56,10 @@ export default function ContactSection() {
           {methods.map((method) => {
             const isExternal = method.href.startsWith("http");
             return (
-              <li key={method.label}>
+              <li
+                key={method.label}
+                className={"wide" in method ? "sm:col-span-2" : undefined}
+              >
                 <a
                   href={method.href}
                   {...(isExternal && {
@@ -86,14 +84,24 @@ export default function ContactSection() {
             );
           })}
         </ul>
-        <a
-          href={DATA.resumeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-        >
-          Prefer a PDF? Download my resume
-        </a>
+        <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+          <a
+            href={`tel:${DATA.contact.phone}`}
+            className="inline-flex items-center gap-1.5 underline-offset-4 hover:text-foreground hover:underline"
+          >
+            <Phone className="size-3.5" aria-hidden />
+            Or call {DATA.contact.phoneDisplay}
+          </a>
+          <span aria-hidden>·</span>
+          <a
+            href={DATA.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline-offset-4 hover:text-foreground hover:underline"
+          >
+            Download my resume (PDF)
+          </a>
+        </p>
       </div>
     </div>
   );

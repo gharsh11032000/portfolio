@@ -123,7 +123,7 @@ export const DATA = {
   description:
     "Full-stack software engineer leading web, mobile, and AWS at Beyoung (5M+ monthly impressions). React, Next.js, React Native, TypeScript. Top 5 on Uiverse.io.",
   summary:
-    "I'm a full-stack engineer who started on the frontend and kept following problems downstream: into APIs, databases, mobile apps, and the AWS bill.\n\nAt **Beyoung** I joined as one of 18–20 engineers and, as the team shrank, ended up owning the platform. Today I lead the web team for a store with **5M+ monthly impressions**. I moved the legacy web and React Native apps to TypeScript and Next.js 16, cut AWS spend by up to 50%, and made delivery 4–5x faster with spec-driven, AI-assisted development.\n\nOutside the day job I co-built **Plango** (10K+ downloads), I'm a **Top 5 contributor on Uiverse.io**, and I take on freelance work for teams in India and abroad.",
+    "I'm a full-stack engineer who started on the frontend and kept following problems downstream: into APIs, databases, mobile apps, and the AWS bill.\n\nAt **Beyoung** I joined as one of 18–20 engineers and, as the team shrank, ended up owning the platform: web, mobile, backend, and the infrastructure underneath. That's the work I enjoy most: moving legacy code to TypeScript, tracking down the import that bloats every page, or finding the cache rule that halves a bill, then writing up what I learned.\n\nOutside the day job I co-built **Plango**, publish open-source UI on **Uiverse.io**, and take on freelance work for teams in India and abroad.",
   avatarUrl: "/harsh-gupta.jpg",
   resumeUrl: "/harsh_g_resume_latest.pdf",
   highlights: [
@@ -136,51 +136,30 @@ export const DATA = {
   ],
   skills: [
     {
-      category: "Languages",
-      items: ["TypeScript", "JavaScript", "HTML", "CSS", "Sass/SCSS", "SQL"],
-    },
-    {
       category: "Frontend",
       items: [
+        "TypeScript",
         "React",
         "Next.js",
         "Tailwind CSS",
         "shadcn/ui",
-        "MUI",
-        "Storybook",
-        "GSAP",
         "Framer Motion",
       ],
     },
     {
       category: "Mobile",
-      items: ["React Native", "Expo", "NativeWind", "OTA updates", "Capacitor"],
+      items: ["React Native", "Expo", "NativeWind"],
     },
     {
-      category: "State & Data",
-      items: [
-        "TanStack Query",
-        "Zustand",
-        "Redux Toolkit",
-        "Zod",
-        "REST APIs",
-        "GraphQL",
-      ],
-    },
-    {
-      category: "Backend & CMS",
+      category: "Backend",
       items: [
         "Node.js",
-        "Express.js",
         "Hono",
-        "MySQL",
         "PostgreSQL (Neon)",
-        "Supabase",
+        "MySQL",
         "Redis",
         "Drizzle ORM",
         "Strapi",
-        "WordPress",
-        "WooCommerce",
       ],
     },
     {
@@ -190,33 +169,13 @@ export const DATA = {
         "Cloudflare",
         "Vercel",
         "GitHub Actions",
-        "CI/CD",
-        "Turborepo",
         "Docker",
-      ],
-    },
-    {
-      category: "Observability & Quality",
-      items: [
         "Sentry",
-        "Grafana",
-        "Test-driven development",
-        "Automated testing",
-        "Core Web Vitals",
       ],
     },
     {
       category: "AI-Assisted Dev",
-      items: [
-        "Claude Code",
-        "Cursor",
-        "Google Antigravity",
-        "v0",
-        "MCP servers",
-        "Agent Skills",
-        "OpenSpec",
-        "Spec-driven development",
-      ],
+      items: ["Claude Code", "Cursor", "MCP servers", "Spec-driven development"],
     },
   ],
   navbar: [
@@ -347,7 +306,7 @@ export const DATA = {
       location: "Udaipur, India",
       title: "Software Engineer (Web Lead)",
       summary:
-        "Took over the platform as the team shrank; now lead web, mobile, backend, and AWS for a store with **5M+ monthly impressions**.",
+        "Took over the platform as the team shrank; now **lead web, mobile, backend, and AWS** end to end.",
       logoUrl: "/beyoung.png",
       start: "Nov 2024",
       end: "Present",
@@ -470,7 +429,7 @@ export const DATA = {
       dates: "Nov 2024 – Present",
       role: "Web Lead",
       description:
-        "High-traffic D2C fashion e-commerce platform with 5M+ monthly impressions. Primary author of the Next.js 16 storefront, admin, and shared UI package in a Turborepo monorepo spanning web, API, cron, CMS, and an image Lambda.",
+        "High-traffic D2C fashion e-commerce platform. Primary author of the Next.js 16 storefront, admin, and shared UI package in a Turborepo monorepo spanning web, API, cron, CMS, and an image Lambda.",
       technologies: [
         "Next.js 16",
         "TypeScript",
