@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 
@@ -129,6 +130,7 @@ export default function RootLayout({
             <Navbar />
           </TooltipProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
