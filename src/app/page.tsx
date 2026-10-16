@@ -137,7 +137,7 @@ export default function Page() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <SiWhatsapp className="size-4" />
+                    <SiWhatsapp className="size-4" aria-hidden />
                     WhatsApp
                   </a>
                 </Button>

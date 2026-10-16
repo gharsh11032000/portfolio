@@ -486,12 +486,12 @@ export const DATA = {
         {
           type: "App Store",
           href: "https://apps.apple.com/app/plango-real-life-activities/id6762561781",
-          icon: <SiAppstore className="size-3" />,
+          icon: <SiAppstore className="size-3" aria-hidden />,
         },
         {
           type: "Google Play",
           href: "https://play.google.com/store/apps/details?id=com.plango",
-          icon: <SiGoogleplay className="size-3" />,
+          icon: <SiGoogleplay className="size-3" aria-hidden />,
         },
       ],
       image: "",
