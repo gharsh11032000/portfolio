@@ -14,8 +14,9 @@ import WorkSection, {
   EducationSection,
 } from "@/components/section/work-section";
 import { LocalTime } from "@/components/local-time";
-import { MapPin } from "lucide-react";
-import { formatDate } from "@/lib/utils";
+import { FileText, Mail, MapPin } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import { cn, formatDate } from "@/lib/utils";
 import { getPostSlug, getSortedPosts } from "@/lib/posts";
 
 const BLUR_FADE_DELAY = 0.04;
@@ -83,8 +84,17 @@ export default function Page() {
       />
       <section id="hero">
         <div className="gap-2 gap-y-6 flex flex-col md:flex-row justify-between">
-          <div className="gap-3 flex flex-col order-2 md:order-1">
+          <div className="gap-4 flex flex-col order-2 md:order-1">
             <BlurFade delay={BLUR_FADE_DELAY * 2}>
+              <p className="inline-flex w-fit items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
+                <span aria-hidden className="relative flex size-2">
+                  <span className="absolute inline-flex size-full rounded-full bg-emerald-400 opacity-75 animate-ping motion-reduce:animate-none" />
+                  <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+                </span>
+                {DATA.availability}
+              </p>
+            </BlurFade>
+            <BlurFade delay={BLUR_FADE_DELAY * 3}>
               <h1 className="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl">
                 {DATA.name}
                 <span
@@ -95,25 +105,39 @@ export default function Page() {
                 </span>
               </h1>
             </BlurFade>
-            <BlurFade delay={BLUR_FADE_DELAY * 3}>
+            <BlurFade delay={BLUR_FADE_DELAY * 4}>
               <p className="text-muted-foreground max-w-135 md:text-lg leading-relaxed text-pretty">
                 {DATA.headline}
               </p>
-            </BlurFade>
-            <BlurFade delay={BLUR_FADE_DELAY * 4}>
-              <p className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm text-muted-foreground">
+              <p className="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm text-muted-foreground">
                 <MapPin className="size-3.5" aria-hidden />
                 {DATA.location}
                 <span aria-hidden>·</span>
                 <LocalTime />
               </p>
-              <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted-foreground">
-                <span
-                  aria-hidden
-                  className="size-1.5 rounded-full bg-emerald-500"
-                />
-                {DATA.availability}
-              </p>
+            </BlurFade>
+            <BlurFade delay={BLUR_FADE_DELAY * 5}>
+              <div className="flex flex-wrap gap-2 pt-1">
+                <a
+                  href="#contact"
+                  className={cn(buttonVariants(), "gap-2 rounded-full")}
+                >
+                  <Mail className="size-4" aria-hidden />
+                  Get in touch
+                </a>
+                <a
+                  href={DATA.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    buttonVariants({ variant: "outline" }),
+                    "gap-2 rounded-full"
+                  )}
+                >
+                  <FileText className="size-4" aria-hidden />
+                  Resume
+                </a>
+              </div>
             </BlurFade>
           </div>
           <BlurFade delay={BLUR_FADE_DELAY} className="order-1 md:order-2">

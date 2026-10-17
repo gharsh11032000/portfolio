@@ -1,12 +1,12 @@
 ---
 title: "How We Halved Our AWS Bill by Caching a Next.js Storefront at the Edge"
 publishedAt: "2026-10-15"
-updatedAt: "2026-10-16"
+updatedAt: "2026-10-17"
 author: "Harsh Gupta"
 summary: "Tiered CDN cache policies, a CloudFront cache key that ignores cookies and tracking params, path purges on publish, and a Lambda image pipeline took our monthly AWS spend from ~$3K to ~$1.5–2K."
 ---
 
-[Beyoung](https://www.beyoung.in) is a fashion e-commerce site with **5M+ monthly impressions**. The stack is a Next.js 16 storefront, an Express API, and MySQL on AWS. When I started looking at our bill, it was around **$3,000 a month**, and most of it was paying for the same work over and over.
+[Beyoung](https://www.beyoung.in) is a fashion e-commerce site with **around 5,000 visitors a day**. The stack is a Next.js 16 storefront, an Express API, and MySQL on AWS. When I started looking at our bill, it was around **$3,000 a month**, and most of it was paying for the same work over and over.
 
 Most of our traffic is guests browsing categories and product pages. A logged-out visitor on `/mens-shirts` gets the same HTML as every other logged-out visitor, yet every one of those requests was being rendered at the origin.
 

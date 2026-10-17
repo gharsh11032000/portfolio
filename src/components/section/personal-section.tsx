@@ -159,18 +159,22 @@ export default function PersonalSection() {
       {photos.length > 0 && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {photos.map((photo) => (
-            <figure key={photo.src} className="flex flex-col gap-1.5">
-              <div className="relative aspect-square overflow-hidden rounded-xl border bg-muted">
+            // Framed like the project cards: a card border around an inset photo.
+            <figure
+              key={photo.src}
+              className="group flex flex-col gap-2 rounded-xl border bg-card p-2 transition-all duration-200 hover:ring-2 hover:ring-muted"
+            >
+              <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
                 <Image
                   src={photo.src}
                   alt={photo.alt}
                   fill
-                  sizes="(min-width: 640px) 220px, 45vw"
-                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  sizes="(min-width: 640px) 210px, 45vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
                 />
               </div>
               {photo.caption && (
-                <figcaption className="text-xs text-muted-foreground">
+                <figcaption className="px-1 pb-0.5 text-xs text-muted-foreground">
                   {photo.caption}
                 </figcaption>
               )}
