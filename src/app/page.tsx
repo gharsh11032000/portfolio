@@ -13,9 +13,7 @@ import ProjectsSection from "@/components/section/projects-section";
 import WorkSection, {
   EducationSection,
 } from "@/components/section/work-section";
-import { FileText, Mail } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
-import { cn, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { getPostSlug, getSortedPosts } from "@/lib/posts";
 
 const BLUR_FADE_DELAY = 0.04;
@@ -28,14 +26,16 @@ function SectionHeading({
   kicker,
   children,
 }: {
-  kicker: string;
+  kicker?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <span className="font-mono text-xs text-muted-foreground" aria-hidden>
-        {kicker}
-      </span>
+      {kicker && (
+        <span className="font-mono text-xs text-muted-foreground" aria-hidden>
+          {kicker}
+        </span>
+      )}
       <h2 className="text-xl font-bold tracking-tight">{children}</h2>
     </div>
   );
@@ -85,15 +85,6 @@ export default function Page() {
         <div className="gap-2 gap-y-6 flex flex-col md:flex-row justify-between">
           <div className="gap-4 flex flex-col order-2 md:order-1">
             <BlurFade delay={BLUR_FADE_DELAY * 2}>
-              <p className="inline-flex w-fit items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
-                <span aria-hidden className="relative flex size-2">
-                  <span className="absolute inline-flex size-full rounded-full bg-emerald-400 opacity-75 animate-ping motion-reduce:animate-none" />
-                  <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
-                </span>
-                {DATA.availability}
-              </p>
-            </BlurFade>
-            <BlurFade delay={BLUR_FADE_DELAY * 3}>
               <h1 className="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl">
                 {DATA.name}
                 <span
@@ -104,33 +95,19 @@ export default function Page() {
                 </span>
               </h1>
             </BlurFade>
-            <BlurFade delay={BLUR_FADE_DELAY * 4}>
+            <BlurFade delay={BLUR_FADE_DELAY * 3}>
               <p className="text-muted-foreground max-w-135 md:text-lg leading-relaxed text-pretty">
                 {DATA.headline}
               </p>
             </BlurFade>
-            <BlurFade delay={BLUR_FADE_DELAY * 5}>
-              <div className="flex flex-wrap gap-2 pt-1">
-                <a
-                  href="#contact"
-                  className={cn(buttonVariants(), "gap-2 rounded-full")}
-                >
-                  <Mail className="size-4" aria-hidden />
-                  Get in touch
-                </a>
-                <a
-                  href={DATA.resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    buttonVariants({ variant: "outline" }),
-                    "gap-2 rounded-full"
-                  )}
-                >
-                  <FileText className="size-4" aria-hidden />
-                  Resume
-                </a>
-              </div>
+            <BlurFade delay={BLUR_FADE_DELAY * 4}>
+              <p className="inline-flex w-fit items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
+                <span aria-hidden className="relative flex size-2">
+                  <span className="absolute inline-flex size-full rounded-full bg-emerald-400 opacity-75 animate-ping motion-reduce:animate-none" />
+                  <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+                </span>
+                {DATA.availability}
+              </p>
             </BlurFade>
           </div>
           <BlurFade delay={BLUR_FADE_DELAY} className="order-1 md:order-2">
@@ -231,7 +208,7 @@ export default function Page() {
         <section id="off-the-clock">
           <div className="flex min-h-0 flex-col gap-y-6">
             <BlurFade delay={BLUR_FADE_DELAY} inView>
-              <SectionHeading kicker="~/off-the-clock">Off the clock</SectionHeading>
+              <SectionHeading>Off the clock</SectionHeading>
             </BlurFade>
             <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
               <PersonalSection />
