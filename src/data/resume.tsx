@@ -189,14 +189,17 @@ export const DATA = {
       ],
     },
     watching: {
-      summary: "Horror, sci-fi, and suspense thrillers.",
+      summary: "Horror, sci-fi, and thrillers, plus a few all-time favourites.",
       titles: [
+        "Harry Potter",
+        "Game of Thrones",
+        "Peaky Blinders",
+        "Project Hail Mary",
+        "The Odyssey",
+        "F1: The Movie",
         "Interstellar",
-        "Dark",
         "Tumbbad",
         "Shutter Island",
-        "Stranger Things",
-        "Black Mirror",
       ],
     },
     music: {
