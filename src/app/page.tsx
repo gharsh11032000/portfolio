@@ -14,6 +14,12 @@ import WorkSection, {
   EducationSection,
 } from "@/components/section/work-section";
 import { formatDate } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipArrow,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { getPostSlug, getSortedPosts } from "@/lib/posts";
 
 const BLUR_FADE_DELAY = 0.04;
@@ -22,23 +28,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-function SectionHeading({
-  kicker,
-  children,
-}: {
-  kicker?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-1">
-      {kicker && (
-        <span className="font-mono text-xs text-muted-foreground" aria-hidden>
-          {kicker}
-        </span>
-      )}
-      <h2 className="text-xl font-bold tracking-tight">{children}</h2>
-    </div>
-  );
+function SectionHeading({ children }: { children: React.ReactNode }) {
+  return <h2 className="text-xl font-bold tracking-tight">{children}</h2>;
 }
 
 const personJsonLd = JSON.stringify({
@@ -100,26 +91,42 @@ export default function Page() {
                 {DATA.headline}
               </p>
             </BlurFade>
-            <BlurFade delay={BLUR_FADE_DELAY * 4}>
-              <p className="inline-flex w-fit items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
-                <span aria-hidden className="relative flex size-2">
-                  <span className="absolute inline-flex size-full rounded-full bg-emerald-400 opacity-75 animate-ping motion-reduce:animate-none" />
-                  <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
-                </span>
-                {DATA.availability}
-              </p>
-            </BlurFade>
           </div>
           <BlurFade delay={BLUR_FADE_DELAY} className="order-1 md:order-2">
-            <div className="relative size-24 md:size-32 overflow-hidden border rounded-full shadow-lg ring-4 ring-muted bg-muted">
-              <Image
-                src={DATA.avatarUrl}
-                alt={`Photo of ${DATA.name}`}
-                fill
-                sizes="(min-width: 768px) 128px, 96px"
-                priority
-                className="object-cover"
-              />
+            <div className="relative w-fit">
+              <div className="relative size-24 md:size-32 overflow-hidden border rounded-full shadow-lg ring-4 ring-muted bg-muted">
+                <Image
+                  src={DATA.avatarUrl}
+                  alt={`Photo of ${DATA.name}`}
+                  fill
+                  sizes="(min-width: 768px) 128px, 96px"
+                  priority
+                  className="object-cover"
+                />
+              </div>
+              {/* "Online"-style badge; the availability text shows on hover or focus. */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span
+                    tabIndex={0}
+                    aria-label={DATA.availability}
+                    className="absolute bottom-1 right-1 flex size-5 cursor-default items-center justify-center rounded-full bg-background shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:bottom-2 md:right-2 md:size-6"
+                  >
+                    <span aria-hidden className="relative flex size-3 md:size-3.5">
+                      <span className="absolute inline-flex size-full rounded-full bg-emerald-400 opacity-75 animate-ping motion-reduce:animate-none" />
+                      <span className="relative inline-flex size-full rounded-full bg-emerald-500" />
+                    </span>
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent
+                  side="bottom"
+                  sideOffset={8}
+                  className="rounded-xl bg-primary px-3 py-1.5 text-xs text-primary-foreground"
+                >
+                  {DATA.availability}
+                  <TooltipArrow className="fill-primary" />
+                </TooltipContent>
+              </Tooltip>
             </div>
           </BlurFade>
         </div>
@@ -128,7 +135,7 @@ export default function Page() {
       <section id="about">
         <div className="flex min-h-0 flex-col gap-y-4">
           <BlurFade delay={BLUR_FADE_DELAY * 5}>
-            <SectionHeading kicker="~/about">About me</SectionHeading>
+            <SectionHeading>About me</SectionHeading>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 6}>
             <div className="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
@@ -141,7 +148,7 @@ export default function Page() {
       <section id="journey">
         <div className="flex min-h-0 flex-col gap-y-6">
           <BlurFade delay={BLUR_FADE_DELAY} inView>
-            <SectionHeading kicker="~/journey">From Sidhi to Udaipur</SectionHeading>
+            <SectionHeading>From Sidhi to Udaipur</SectionHeading>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
             <JourneySection />
@@ -152,7 +159,7 @@ export default function Page() {
       <section id="work">
         <div className="flex min-h-0 flex-col gap-y-6">
           <BlurFade delay={BLUR_FADE_DELAY} inView>
-            <SectionHeading kicker="~/work">Work</SectionHeading>
+            <SectionHeading>Work</SectionHeading>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
             <WorkSection />
@@ -163,7 +170,7 @@ export default function Page() {
       <section id="projects">
         <div className="flex min-h-0 flex-col gap-y-6">
           <BlurFade delay={BLUR_FADE_DELAY} inView>
-            <SectionHeading kicker="~/side-projects">Side projects</SectionHeading>
+            <SectionHeading>Side projects</SectionHeading>
           </BlurFade>
           <ProjectsSection />
         </div>
@@ -172,7 +179,7 @@ export default function Page() {
       <section id="education">
         <div className="flex min-h-0 flex-col gap-y-6">
           <BlurFade delay={BLUR_FADE_DELAY} inView>
-            <SectionHeading kicker="~/education">Education</SectionHeading>
+            <SectionHeading>Education</SectionHeading>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
             <EducationSection />
@@ -183,7 +190,7 @@ export default function Page() {
       <section id="skills">
         <div className="flex min-h-0 flex-col gap-y-6">
           <BlurFade delay={BLUR_FADE_DELAY} inView>
-            <SectionHeading kicker="~/stack">Skills</SectionHeading>
+            <SectionHeading>Skills</SectionHeading>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
             <ul className="flex flex-wrap gap-1.5">
@@ -222,7 +229,7 @@ export default function Page() {
           <div className="flex min-h-0 flex-col gap-y-6">
             <BlurFade delay={BLUR_FADE_DELAY} inView>
               <div className="flex items-end justify-between gap-4">
-                <SectionHeading kicker="~/writing">Writing</SectionHeading>
+                <SectionHeading>Writing</SectionHeading>
                 <Link
                   href="/blog"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
