@@ -1,5 +1,6 @@
+import { BookShelf } from "@/components/book-shelf";
 import { DATA } from "@/data/resume";
-import { cn } from "@/lib/utils";
+import { bookUrl, cn } from "@/lib/utils";
 import {
   BookOpen,
   Clapperboard,
@@ -23,7 +24,7 @@ export function hasPersonalContent() {
   const { intro, books, watching, music, interests, photos } = DATA.personal;
   return (
     Boolean(intro) ||
-    books.reading.length > 0 ||
+    Boolean(books.reading) ||
     books.shelves.length > 0 ||
     watching.titles.length > 0 ||
     music.artists.length > 0 ||
@@ -49,49 +50,31 @@ function ShelfCard({
   return (
     <div
       className={cn(
-        "flex flex-col gap-3 rounded-xl border bg-background p-4",
+        "flex flex-col gap-5 rounded-xl border bg-background p-5 sm:p-6",
         className
       )}
     >
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         <h3 className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
           <Icon className="size-3.5" aria-hidden />
           {label}
         </h3>
-        {summary && <p className="text-sm text-pretty">{summary}</p>}
+        {summary && <p className="text-pretty">{summary}</p>}
       </div>
       {children}
     </div>
   );
 }
 
-function ShelfItem({
-  title,
-  meta,
-  note,
-}: {
-  title: string;
-  meta?: string;
-  note?: string;
-}) {
+function Chips({ items }: { items: readonly string[] }) {
   return (
-    <li className="flex flex-col">
-      <span className="text-sm font-medium leading-snug">{title}</span>
-      {meta && <span className="text-xs text-muted-foreground">{meta}</span>}
-      {note && (
-        <span className="text-sm leading-relaxed text-muted-foreground text-pretty">
-          {note}
-        </span>
-      )}
-    </li>
-  );
-}
-
-function GroupLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-      {children}
-    </p>
+    <ul className="flex flex-wrap gap-2">
+      {items.map((item) => (
+        <li key={item} className="rounded-lg border px-3 py-1 text-sm">
+          {item}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -100,69 +83,45 @@ export default function PersonalSection() {
   const embedUrl = toSpotifyEmbed(music.spotifyPlaylistUrl);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       {intro && (
         <p className="leading-relaxed text-muted-foreground text-pretty">
           {intro}
         </p>
       )}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {(books.reading.length > 0 || books.shelves.length > 0) && (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {(books.reading || books.shelves.length > 0) && (
           <ShelfCard
             icon={BookOpen}
             label="Reading"
-            summary={books.summary}
             className="sm:col-span-2"
           >
-            <div className="flex gap-4">
-              {books.reading.length > 0 && (
-                <div className="flex flex-1 flex-col gap-2">
-                  <GroupLabel>
-                    <span
-                      aria-hidden
-                      className="size-1.5 rounded-full bg-emerald-500"
-                    />
-                    Reading now
-                  </GroupLabel>
-                  <ul className="flex flex-col gap-2">
-                    {books.reading.map((book) => (
-                      <ShelfItem
-                        key={book.title}
-                        title={book.title}
-                        meta={book.author}
-                      />
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {books.photo && (
-                <div className="relative aspect-3/4 w-24 flex-none overflow-hidden rounded-lg border bg-muted sm:w-32">
-                  <Image
-                    src={books.photo.src}
-                    alt={books.photo.alt}
-                    fill
-                    sizes="(min-width: 640px) 128px, 96px"
-                    className="object-cover"
+            {books.reading && (
+              <div className="flex flex-col gap-1">
+                <p className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                  <span
+                    aria-hidden
+                    className="size-1.5 rounded-full bg-emerald-500"
                   />
-                </div>
-              )}
-            </div>
+                  Reading now
+                </p>
+                <a
+                  href={bookUrl(books.reading)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-fit text-lg font-semibold tracking-tight underline-offset-4 hover:underline"
+                >
+                  {books.reading.title}
+                  <span className="sr-only"> on Goodreads (opens in a new tab)</span>
+                </a>
+                <p className="text-sm text-muted-foreground">
+                  {books.reading.author}
+                </p>
+              </div>
+            )}
             {books.shelves.length > 0 && (
-              <div className="grid gap-4 border-t pt-3 sm:grid-cols-3">
-                {books.shelves.map((shelf) => (
-                  <div key={shelf.label} className="flex flex-col gap-2">
-                    <GroupLabel>{shelf.label}</GroupLabel>
-                    <ul className="flex flex-col gap-2">
-                      {shelf.books.map((book) => (
-                        <ShelfItem
-                          key={book.title}
-                          title={book.title}
-                          meta={book.author}
-                        />
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+              <div className="border-t pt-5">
+                <BookShelf shelves={books.shelves} />
               </div>
             )}
           </ShelfCard>
@@ -173,25 +132,12 @@ export default function PersonalSection() {
             label="Watching"
             summary={watching.summary}
           >
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-2">
-              {watching.titles.map((item) => (
-                <ShelfItem key={item.title} title={item.title} meta={item.kind} />
-              ))}
-            </ul>
+            <Chips items={watching.titles} />
           </ShelfCard>
         )}
         {(music.artists.length > 0 || embedUrl) && (
           <ShelfCard icon={Headphones} label="On repeat" summary={music.summary}>
-            <ul className="flex flex-wrap gap-1.5">
-              {music.artists.map((artist) => (
-                <li
-                  key={artist}
-                  className="rounded-lg border px-2.5 py-0.5 text-sm"
-                >
-                  {artist}
-                </li>
-              ))}
-            </ul>
+            <Chips items={music.artists} />
             {embedUrl && (
               <iframe
                 src={embedUrl}
@@ -206,15 +152,7 @@ export default function PersonalSection() {
         )}
         {interests.length > 0 && (
           <ShelfCard icon={Sparkles} label="Also into" className="sm:col-span-2">
-            <ul className="grid gap-3 sm:grid-cols-3">
-              {interests.map((interest) => (
-                <ShelfItem
-                  key={interest.label}
-                  title={interest.label}
-                  note={interest.note}
-                />
-              ))}
-            </ul>
+            <Chips items={interests} />
           </ShelfCard>
         )}
       </div>

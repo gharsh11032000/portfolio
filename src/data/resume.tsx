@@ -137,28 +137,29 @@ export const DATA = {
   // Each list shows as its own card, and empty lists are skipped.
   personal: {
     intro:
-      "Away from the keyboard, I'm at the gym, in a theatre seat for the next horror or sci-fi release, or following a Formula 1 race weekend. Most of my reading happens in audiobooks, usually at 1.2x speed.",
+      "Away from the keyboard, I'm at the gym, at the theatre for the next big release, or watching Formula 1 and the IPL.",
+    // Each book links to a Goodreads search unless it has its own `href`.
+    // The first six books show before "Show all", so lead with the favourites.
     books: {
-      summary:
-        "Mostly on Audible, plus a small paper shelf at home. Mark Manson is the author I keep coming back to.",
-      reading: [
-        { title: "Notes from Underground", author: "Fyodor Dostoevsky" },
-        { title: "The Daily Stoic", author: "Ryan Holiday" },
-        { title: "Four Thousand Weeks", author: "Oliver Burkeman" },
-      ],
-      // Grouped so the mix shows at a glance; keep each shelf to about seven.
+      reading: { title: "The Daily Stoic", author: "Ryan Holiday" },
       shelves: [
+        {
+          label: "Mark Manson, the author I keep coming back to",
+          books: [
+            { title: "The Subtle Art of Not Giving a F*ck", author: "Mark Manson" },
+            { title: "Everything Is F*cked", author: "Mark Manson" },
+            { title: "Models", author: "Mark Manson" },
+          ],
+        },
         {
           label: "Philosophy & fiction",
           books: [
+            { title: "Notes from Underground", author: "Fyodor Dostoevsky" },
             { title: "The Stranger", author: "Albert Camus" },
             { title: "The Metamorphosis", author: "Franz Kafka" },
             { title: "The Dream of a Ridiculous Man", author: "Fyodor Dostoevsky" },
             { title: "Man's Search for Meaning", author: "Viktor E. Frankl" },
             { title: "The Courage to Be Disliked", author: "Ichiro Kishimi & Fumitake Koga" },
-            { title: "The Subtle Art of Not Giving a F*ck", author: "Mark Manson" },
-            { title: "Everything Is F*cked", author: "Mark Manson" },
-            { title: "Models", author: "Mark Manson" },
           ],
         },
         {
@@ -178,6 +179,7 @@ export const DATA = {
             { title: "Sapiens", author: "Yuval Noah Harari" },
             { title: "Nexus", author: "Yuval Noah Harari" },
             { title: "Thinking, Fast and Slow", author: "Daniel Kahneman" },
+            { title: "Four Thousand Weeks", author: "Oliver Burkeman" },
             { title: "The Psychology of Money", author: "Morgan Housel" },
             { title: "Atomic Habits", author: "James Clear" },
             { title: "Digital Minimalism", author: "Cal Newport" },
@@ -185,34 +187,26 @@ export const DATA = {
           ],
         },
       ],
-      photo: {
-        src: "/photos/harsh-gupta-bookshelf.webp",
-        alt: "Harsh's paper bookshelf: The Pathless Path, The 4-Hour Work Week, Metamorphosis, Man's Search for Meaning, The Communist Manifesto, Sapiens, and Steve Jobs",
-      },
     },
     watching: {
-      summary:
-        "Horror, sci-fi, and suspense thrillers. Big releases are worth the trip to the theatre.",
+      summary: "Horror, sci-fi, and suspense thrillers.",
       titles: [
-        { title: "Interstellar", kind: "Movie" },
-        { title: "Dark", kind: "Series" },
-        { title: "Tumbbad", kind: "Movie" },
-        { title: "Shutter Island", kind: "Movie" },
-        { title: "Stranger Things", kind: "Series" },
-        { title: "Black Mirror", kind: "Series" },
+        "Interstellar",
+        "Dark",
+        "Tumbbad",
+        "Shutter Island",
+        "Stranger Things",
+        "Black Mirror",
       ],
     },
     music: {
-      summary: "Desi hip hop, mostly.",
-      artists: ["DIVINE", "Seedhe Maut", "KR$NA", "Raftaar", "Hanumankind"],
+      summary: "Desi hip hop.",
+      artists: ["Naam Sujal", "Seedhe Maut", "KR$NA", "Raftaar", "Yashraj", "Karma"],
       // A Spotify playlist link, e.g. https://open.spotify.com/playlist/<id>
       spotifyPlaylistUrl: "" as string,
     },
-    interests: [
-      { label: "Gym", note: "My reset after a day at the keyboard." },
-      { label: "Formula 1", note: "I follow the whole season, and love it." },
-      { label: "Cricket", note: "I catch most of the IPL every year." },
-    ],
+    // Shown as tags in an "Also into" card; the intro already covers gym, F1, and cricket.
+    interests: [] as string[],
     // Photos placed in /public/photos, e.g. { src: "/photos/udaipur.jpg", alt: "Lake Pichola at dusk" }
     photos: [] as { src: string; alt: string; caption?: string }[],
   },

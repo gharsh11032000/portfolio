@@ -15,3 +15,13 @@ export function formatDate(date: string | Date) {
     timeZone: "UTC",
   });
 }
+
+export type Book = { title: string; author: string; href?: string };
+
+/** A book's own link, or a Goodreads search for it. */
+export function bookUrl(book: Book) {
+  return (
+    book.href ??
+    `https://www.goodreads.com/search?q=${encodeURIComponent(`${book.title} ${book.author}`)}`
+  );
+}
