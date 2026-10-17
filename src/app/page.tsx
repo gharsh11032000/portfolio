@@ -13,8 +13,7 @@ import ProjectsSection from "@/components/section/projects-section";
 import WorkSection, {
   EducationSection,
 } from "@/components/section/work-section";
-import { LocalTime } from "@/components/local-time";
-import { FileText, Mail, MapPin } from "lucide-react";
+import { FileText, Mail } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn, formatDate } from "@/lib/utils";
 import { getPostSlug, getSortedPosts } from "@/lib/posts";
@@ -108,12 +107,6 @@ export default function Page() {
             <BlurFade delay={BLUR_FADE_DELAY * 4}>
               <p className="text-muted-foreground max-w-135 md:text-lg leading-relaxed text-pretty">
                 {DATA.headline}
-              </p>
-              <p className="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm text-muted-foreground">
-                <MapPin className="size-3.5" aria-hidden />
-                {DATA.location}
-                <span aria-hidden>·</span>
-                <LocalTime />
               </p>
             </BlurFade>
             <BlurFade delay={BLUR_FADE_DELAY * 5}>

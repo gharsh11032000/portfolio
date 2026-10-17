@@ -49,7 +49,7 @@ export const DATA = {
   url: siteUrl,
   location: "Udaipur, India",
   locationLink: "https://www.google.com/maps/place/Udaipur",
-  availability: "Up for anything fun, paid or free",
+  availability: "Open to new work and fun side projects",
   headline:
     "I build web and mobile apps end to end, from the storefront to the AWS bill.",
   description:
