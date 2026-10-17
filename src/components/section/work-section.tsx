@@ -50,7 +50,7 @@ function RowText({
           {title}
           {expandable && (
             <ChevronRight
-              className="size-3.5 text-muted-foreground opacity-0 -translate-x-1 transition-all group-hover/row:opacity-100 group-hover/row:translate-x-0 group-open/row:rotate-90 group-open/row:opacity-100 group-open/row:translate-x-0"
+              className="size-3.5 text-muted-foreground opacity-0 -translate-x-1 pointer-coarse:opacity-100 pointer-coarse:translate-x-0 transition-all group-hover/row:opacity-100 group-hover/row:translate-x-0 group-open/row:rotate-90 group-open/row:opacity-100 group-open/row:translate-x-0"
               aria-hidden
             />
           )}
@@ -68,9 +68,10 @@ function RowText({
 export default function WorkSection() {
   return (
     <ul className="flex flex-col gap-6">
-      {DATA.work.map((work) => (
+      {DATA.work.map((work, idx) => (
         <li key={work.company}>
-          <details className="group/row">
+          {/* The current role starts open so its story is visible without a click. */}
+          <details className="group/row" open={idx === 0}>
             <summary className="flex cursor-pointer list-none items-center gap-x-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
               <Logo src={work.logoUrl} alt={`${work.company} logo`} />
               <RowText

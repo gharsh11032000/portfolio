@@ -106,6 +106,14 @@ export default function Page() {
                 {DATA.location}
                 <span aria-hidden>·</span>
                 <LocalTime />
+                <span aria-hidden>·</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <span
+                    aria-hidden
+                    className="size-1.5 rounded-full bg-emerald-500"
+                  />
+                  {DATA.availability}
+                </span>
               </p>
             </BlurFade>
           </div>
@@ -137,6 +145,17 @@ export default function Page() {
         </div>
       </section>
 
+      <section id="journey">
+        <div className="flex min-h-0 flex-col gap-y-6">
+          <BlurFade delay={BLUR_FADE_DELAY} inView>
+            <SectionHeading kicker="~/journey">From Sidhi to Udaipur</SectionHeading>
+          </BlurFade>
+          <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
+            <JourneySection />
+          </BlurFade>
+        </div>
+      </section>
+
       <section id="work">
         <div className="flex min-h-0 flex-col gap-y-6">
           <BlurFade delay={BLUR_FADE_DELAY} inView>
@@ -145,6 +164,15 @@ export default function Page() {
           <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
             <WorkSection />
           </BlurFade>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div className="flex min-h-0 flex-col gap-y-6">
+          <BlurFade delay={BLUR_FADE_DELAY} inView>
+            <SectionHeading kicker="~/side-projects">Side projects</SectionHeading>
+          </BlurFade>
+          <ProjectsSection />
         </div>
       </section>
 
@@ -179,26 +207,6 @@ export default function Page() {
                 );
               })}
             </ul>
-          </BlurFade>
-        </div>
-      </section>
-
-      <section id="projects">
-        <div className="flex min-h-0 flex-col gap-y-6">
-          <BlurFade delay={BLUR_FADE_DELAY} inView>
-            <SectionHeading kicker="~/side-projects">Side projects</SectionHeading>
-          </BlurFade>
-          <ProjectsSection />
-        </div>
-      </section>
-
-      <section id="journey">
-        <div className="flex min-h-0 flex-col gap-y-6">
-          <BlurFade delay={BLUR_FADE_DELAY} inView>
-            <SectionHeading kicker="~/journey">From Sidhi to Udaipur</SectionHeading>
-          </BlurFade>
-          <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
-            <JourneySection />
           </BlurFade>
         </div>
       </section>

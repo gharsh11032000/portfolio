@@ -49,13 +49,13 @@ export const DATA = {
   url: siteUrl,
   location: "Udaipur, India",
   locationLink: "https://www.google.com/maps/place/Udaipur",
-  availability: "Open to freelance work",
+  availability: "Available for new projects",
   headline:
-    "Software engineer from a small town in Madhya Pradesh, now building web and mobile apps in Udaipur.",
+    "I build web and mobile apps end to end, from the storefront to the AWS bill.",
   description:
     "Harsh Gupta, full-stack software engineer in Udaipur. Works on web and mobile at Beyoung, co-built Plango, and is a top 5 contributor on Uiverse.io.",
   summary:
-    "I grew up in **Sidhi**, a small town in Madhya Pradesh, and studied engineering in Bhopal. I found my way into programming through the frontend. First I wanted pages to look exactly right, then I wanted them to load fast. Each fix led to the next problem, and before long I was working on APIs, databases, mobile apps, and the cloud bill too.\n\nThese days I'm a software engineer at **Beyoung**, an online fashion brand, working across its website, mobile app, backend, and AWS. Outside work I co-built **Plango**, an app for meeting new people through real-life activities, and I share free UI components on **Uiverse.io**, where I'm one of the top 5 contributors. When I figure something out, I [write it up](/blog).",
+    "I grew up in **Sidhi**, a small town in Madhya Pradesh, and studied engineering in Bhopal. I found my way into programming through the frontend. First I wanted pages to look exactly right, then I wanted them to load fast. Each fix led to the next problem, and before long I was working on APIs, databases, mobile apps, and the cloud bill too.\n\nThese days I'm a software engineer at **Beyoung**, an online fashion brand, where I look after the website, mobile app, backend, and AWS. I still build things on the side, and when I figure something out, I [write it up](/blog).",
   avatarUrl: "/harsh-gupta.jpg",
   resumeUrl: "/harsh-gupta-resume.pdf",
   skills: [
@@ -134,9 +134,85 @@ export const DATA = {
   ],
 
   // Optional personal section; it renders only once something is filled in.
+  // Each list shows as its own card, and empty lists are skipped.
   personal: {
-    // A Spotify playlist link, e.g. https://open.spotify.com/playlist/<id>
-    spotifyPlaylistUrl: "" as string,
+    intro:
+      "Away from the keyboard, I'm at the gym, in a theatre seat for the next horror or sci-fi release, or following a Formula 1 race weekend. Most of my reading happens in audiobooks, usually at 1.2x speed.",
+    books: {
+      summary:
+        "Mostly on Audible, plus a small paper shelf at home. Mark Manson is the author I keep coming back to.",
+      reading: [
+        { title: "Notes from Underground", author: "Fyodor Dostoevsky" },
+        { title: "The Daily Stoic", author: "Ryan Holiday" },
+        { title: "Four Thousand Weeks", author: "Oliver Burkeman" },
+      ],
+      // Grouped so the mix shows at a glance; keep each shelf to about seven.
+      shelves: [
+        {
+          label: "Philosophy & fiction",
+          books: [
+            { title: "The Stranger", author: "Albert Camus" },
+            { title: "The Metamorphosis", author: "Franz Kafka" },
+            { title: "The Dream of a Ridiculous Man", author: "Fyodor Dostoevsky" },
+            { title: "Man's Search for Meaning", author: "Viktor E. Frankl" },
+            { title: "The Courage to Be Disliked", author: "Ichiro Kishimi & Fumitake Koga" },
+            { title: "The Subtle Art of Not Giving a F*ck", author: "Mark Manson" },
+            { title: "Everything Is F*cked", author: "Mark Manson" },
+            { title: "Models", author: "Mark Manson" },
+          ],
+        },
+        {
+          label: "Building things",
+          books: [
+            { title: "Zero to One", author: "Peter Thiel" },
+            { title: "The Third Door", author: "Alex Banayan" },
+            { title: "The Pathless Path", author: "Paul Millerd" },
+            { title: "The 4-Hour Work Week", author: "Tim Ferriss" },
+            { title: "Steve Jobs", author: "Walter Isaacson" },
+            { title: "The Millionaire Fastlane", author: "MJ DeMarco" },
+          ],
+        },
+        {
+          label: "How we think",
+          books: [
+            { title: "Sapiens", author: "Yuval Noah Harari" },
+            { title: "Nexus", author: "Yuval Noah Harari" },
+            { title: "Thinking, Fast and Slow", author: "Daniel Kahneman" },
+            { title: "The Psychology of Money", author: "Morgan Housel" },
+            { title: "Atomic Habits", author: "James Clear" },
+            { title: "Digital Minimalism", author: "Cal Newport" },
+            { title: "Storyworthy", author: "Matthew Dicks" },
+          ],
+        },
+      ],
+      photo: {
+        src: "/photos/harsh-gupta-bookshelf.webp",
+        alt: "Harsh's paper bookshelf: The Pathless Path, The 4-Hour Work Week, Metamorphosis, Man's Search for Meaning, The Communist Manifesto, Sapiens, and Steve Jobs",
+      },
+    },
+    watching: {
+      summary:
+        "Horror, sci-fi, and suspense thrillers. Big releases are worth the trip to the theatre.",
+      titles: [
+        { title: "Interstellar", kind: "Movie" },
+        { title: "Dark", kind: "Series" },
+        { title: "Tumbbad", kind: "Movie" },
+        { title: "Shutter Island", kind: "Movie" },
+        { title: "Stranger Things", kind: "Series" },
+        { title: "Black Mirror", kind: "Series" },
+      ],
+    },
+    music: {
+      summary: "Desi hip hop, mostly.",
+      artists: ["DIVINE", "Seedhe Maut", "KR$NA", "Raftaar", "Hanumankind"],
+      // A Spotify playlist link, e.g. https://open.spotify.com/playlist/<id>
+      spotifyPlaylistUrl: "" as string,
+    },
+    interests: [
+      { label: "Gym", note: "My reset after a day at the keyboard." },
+      { label: "Formula 1", note: "I follow the whole season, and love it." },
+      { label: "Cricket", note: "I catch most of the IPL every year." },
+    ],
     // Photos placed in /public/photos, e.g. { src: "/photos/udaipur.jpg", alt: "Lake Pichola at dusk" }
     photos: [] as { src: string; alt: string; caption?: string }[],
   },
@@ -163,7 +239,7 @@ export const DATA = {
       start: "Feb 2024",
       end: "Nov 2024",
       description:
-        "Here I built client websites from start to finish with Next.js and Strapi, including a luxury travel platform and a site for a US emergency-services company. I set up the CMS so each client's team could update pages on their own, and moved the company's own projects onto a shared component library.",
+        "I built client websites from start to finish with Next.js and Strapi, including a luxury travel platform and a site for a US emergency-services company. I set up the CMS so each client's team could update pages on their own, and moved the company's own projects onto a shared component library.",
     },
     {
       company: "Netmagnetic",
