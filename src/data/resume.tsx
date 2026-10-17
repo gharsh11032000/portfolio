@@ -199,12 +199,11 @@ export const DATA = {
         "F1: The Movie",
         "Interstellar",
         "Tumbbad",
-        "Shutter Island",
       ],
     },
     music: {
       summary: "Desi hip hop.",
-      artists: ["Naam Sujal", "Seedhe Maut", "KR$NA", "Raftaar", "Yashraj", "Karma"],
+      artists: ["Naam Sujal", "Seedhe Maut", "KR$NA", "Raftaar", "Karma"],
       // A Spotify playlist link, e.g. https://open.spotify.com/playlist/<id>
       spotifyPlaylistUrl: "" as string,
     },
