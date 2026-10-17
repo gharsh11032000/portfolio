@@ -106,14 +106,13 @@ export default function Page() {
                 {DATA.location}
                 <span aria-hidden>·</span>
                 <LocalTime />
-                <span aria-hidden>·</span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span
-                    aria-hidden
-                    className="size-1.5 rounded-full bg-emerald-500"
-                  />
-                  {DATA.availability}
-                </span>
+              </p>
+              <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted-foreground">
+                <span
+                  aria-hidden
+                  className="size-1.5 rounded-full bg-emerald-500"
+                />
+                {DATA.availability}
               </p>
             </BlurFade>
           </div>

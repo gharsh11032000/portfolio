@@ -49,13 +49,13 @@ export const DATA = {
   url: siteUrl,
   location: "Udaipur, India",
   locationLink: "https://www.google.com/maps/place/Udaipur",
-  availability: "Available for new projects",
+  availability: "Up for anything fun, paid or free",
   headline:
     "I build web and mobile apps end to end, from the storefront to the AWS bill.",
   description:
-    "Harsh Gupta, full-stack software engineer in Udaipur. Works on web and mobile at Beyoung, co-built Plango, and is a top 5 contributor on Uiverse.io.",
+    "Harsh Gupta, full-stack software engineer in Udaipur. Works on web and mobile at Beyoung, designed and architected Plango, and is a top 5 contributor on Uiverse.io.",
   summary:
-    "I grew up in **Sidhi**, a small town in Madhya Pradesh, and studied engineering in Bhopal. I found my way into programming through the frontend. First I wanted pages to look exactly right, then I wanted them to load fast. Each fix led to the next problem, and before long I was working on APIs, databases, mobile apps, and the cloud bill too.\n\nThese days I'm a software engineer at **Beyoung**, an online fashion brand, where I look after the website, mobile app, backend, and AWS. I still build things on the side, and when I figure something out, I [write it up](/blog).",
+    "I grew up in **Sidhi**, a small town in Madhya Pradesh, and studied engineering in Bhopal. In college I still didn't know what I wanted to do. I heard about freelancing, tried graphic design, and didn't enjoy it. Then I built my first website by following a tutorial, and that one stuck.\n\nI got serious with the Zero To Mastery web developer course on Udemy, then courses in UI/UX and frontend, and landed my first internship right after college. First I wanted pages to look exactly right, then I wanted them to load fast. Each fix led to the next problem, and before long I was working on APIs, databases, mobile apps, and the cloud bill too. People started to notice the work, and somewhere along the way I fell in love with it. I still learn something new every day, usually after work.\n\nThese days I'm a software engineer at **Beyoung**, an online fashion brand, where I look after the website, mobile app, backend, and AWS. I still build things on the side, and when I figure something out, I [write it up](/blog).",
   avatarUrl: "/harsh-gupta.jpg",
   resumeUrl: "/harsh-gupta-resume.pdf",
   skills: [
@@ -115,8 +115,8 @@ export const DATA = {
     {
       city: "Bhopal",
       region: "Madhya Pradesh",
-      label: "Engineering at LNCT",
-      years: "2018–22",
+      label: "College, my first website, and my first job",
+      years: "2018–24",
     },
     {
       city: "Ahmedabad",
@@ -137,7 +137,7 @@ export const DATA = {
   // Each list shows as its own card, and empty lists are skipped.
   personal: {
     intro:
-      "Away from the keyboard, I'm at the gym, at the theatre for the next big release, or watching Formula 1 and the IPL.",
+      "Away from the keyboard, I'm at the gym or in the pool, at the theatre for the next big release, or watching Formula 1 and the IPL.",
     // Each book links to a Goodreads search unless it has its own `href`.
     // The first six books show before "Show all", so lead with the favourites.
     books: {
@@ -210,7 +210,23 @@ export const DATA = {
     // Shown as tags in an "Also into" card; the intro already covers gym, F1, and cricket.
     interests: [] as string[],
     // Photos placed in /public/photos, e.g. { src: "/photos/udaipur.jpg", alt: "Lake Pichola at dusk" }
-    photos: [] as { src: string; alt: string; caption?: string }[],
+    photos: [
+      {
+        src: "/photos/udaipur-lake-pichola-at-night.webp",
+        alt: "The City Palace lit up across Lake Pichola at night",
+        caption: "Lake Pichola after dark",
+      },
+      {
+        src: "/photos/udaipur-lakeside-marble-pavilion.webp",
+        alt: "A carved marble pavilion looking out over a lake and hills",
+        caption: "A quiet lakeside afternoon",
+      },
+      {
+        src: "/photos/udaipur-hills-and-lake-view.webp",
+        alt: "Green Aravalli hills and a small lake seen from a hilltop",
+        caption: "The hills around Udaipur",
+      },
+    ] as { src: string; alt: string; caption?: string }[],
   },
 
   // Short on purpose: the full detail lives in the resume PDF.
@@ -224,7 +240,7 @@ export const DATA = {
       start: "Nov 2024",
       end: "Present",
       description:
-        "I joined as a frontend engineer on a tech team of almost twenty. As the team shrank, more and more of the platform landed with me: the website, mobile app, backend, and AWS setup of a store with 5M+ monthly impressions. Since then I've moved the storefront from Next.js 10 to 16, cut the AWS bill roughly in half, and added error tracking that brought production errors close to zero.",
+        "I joined as a frontend engineer on a tech team of almost twenty. As the team shrank, more and more of the platform landed with me: the website, mobile app, backend, and AWS setup of a store with around 5,000 visitors a day. Since then I've moved the storefront from Next.js 10 to 16, cut the AWS bill roughly in half, and added error tracking that brought production errors close to zero.",
     },
     {
       company: "Green Apex Infosolutions",
@@ -240,13 +256,13 @@ export const DATA = {
     {
       company: "Netmagnetic",
       href: "https://netmagnetic.com",
-      location: "Remote",
+      location: "Bhopal, India",
       title: "Frontend Engineer",
       logoUrl: "/netmagnetic-logo.png",
       start: "Sep 2022",
       end: "Feb 2024",
       description:
-        "My first job, working on a point-of-sale plugin for WooCommerce stores. Its styles had grown to about 50,000 lines of legacy CSS and were hard to change safely. I rewrote them as modular Sass in under 20,000 lines, which made the interface much easier to maintain. I also built React features for the plugin and redesigned the company website.",
+        "Where I started out, first remote and then hybrid in Bhopal. I worked on a point-of-sale plugin for WooCommerce stores whose styles had grown to about 50,000 lines of legacy CSS and were hard to change safely. I rewrote them as modular Sass in under 20,000 lines, which made the interface much easier to maintain. I also built React features for the plugin and redesigned the company website.",
     },
   ],
   education: [
@@ -276,9 +292,9 @@ export const DATA = {
       appStore: "https://apps.apple.com/app/plango-real-life-activities/id6762561781",
       playStore: "https://play.google.com/store/apps/details?id=com.plango",
       dates: "2024",
-      role: "Co-built",
+      role: "Designed & architected",
       description:
-        "An app for meeting new people by doing things together in real life. We built in ID checks and secure payments so people feel safe showing up, and it has passed 10K downloads on iOS and Android.",
+        "An app for meeting new people by doing things together in real life. I designed the product end to end and planned its architecture, including the ID checks and secure payments that help people feel safe showing up. It has passed 10K downloads on iOS and Android.",
       technologies: ["React Native", "Expo", "Hono", "Supabase", "Cloudflare"],
       links: [
         {

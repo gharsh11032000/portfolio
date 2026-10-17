@@ -48,8 +48,9 @@ export default function ContactSection() {
           Get in touch
         </h2>
         <p className="mx-auto max-w-lg text-muted-foreground text-balance">
-          For a job, a freelance project, or a question about something I
-          wrote, email is the best way to reach me.
+          Building something fun? Count me in, paid or free. Whether it&apos;s
+          a project, a job, or a question about something I wrote, email is
+          the best way to reach me.
         </p>
         <ul className="grid w-full gap-2 pt-2 text-left sm:grid-cols-2">
           {methods.map((method) => {
